@@ -20,6 +20,6 @@ public class KeyCheckerForMode implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-            isAltPressed = false;
+        isAltPressed = false;
     }
 }

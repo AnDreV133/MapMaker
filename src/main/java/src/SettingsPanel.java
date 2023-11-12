@@ -1,22 +1,14 @@
 package src;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SettingsPanel extends JPanel{
-    public static final int MIN_SIZE_MAP = 10;
-    public static final int MAX_SIZE_MAP = 200;
-    public static final int DEFAULT_SIZE_MAP = 50;
-    public static final int STEP_SIZE_MAP = 5;
+import static src.MainFrame.*;
 
-    private final JSpinner widthLandscape = new JSpinner();
-    private final JSpinner heightLandscape = new JSpinner();
-    private final JSlider blockFreq = new JSlider(200, 800, 500);
-    
-    private final LandscapePainter landscapePainter = new LandscapePainter();
-    
-    private final Map<Integer, String> dictNameObjects = new HashMap<>() {{
+public class SettingsPanel extends JPanel {
+    private final HashMap<Integer, String> dictNameObjects = new HashMap<>() {{
         put(0, "cell");
         put(1, "stone");
         put(2, "fence");
@@ -25,15 +17,25 @@ public class SettingsPanel extends JPanel{
         put(5, "water");
     }};
 
-    static private int currentObjectIndex = 0;
+    private int currentObjectIndex = 0;
+
+    public HashMap<Integer, String> getDictNameObjects() {
+        return dictNameObjects;
+    }
 
     public int getCurrentObjectIndex() {
         return currentObjectIndex;
     }
 
     public void setCurrentObjectIndex(int currentObjectIndex) {
-        SettingsPanel.currentObjectIndex = currentObjectIndex;
+        this.currentObjectIndex = currentObjectIndex;
     }
+
+    private final JSpinner widthLandscape = new JSpinner();
+    private final JSpinner heightLandscape = new JSpinner();
+    private final JSlider blockFreq = new JSlider(200, 800, 500);
+    private final JLabel objectName = new JLabel();
+
 
     public SettingsPanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -71,20 +73,27 @@ public class SettingsPanel extends JPanel{
         btnEmpty.setText("Empty");
         add(btnEmpty);
 
-        JLabel objectName = new JLabel(dictNameObjects.get(currentObjectIndex));
         add(objectName);
     }
 
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        objectName.setText(dictNameObjects.get(currentObjectIndex));
+    }
+
     public void empty() {
-        MainFrame.getImagePanel().updateImageFrame(landscapePainter.getEmptyImage());
+        MainFrame.getImagePanel().updateImageFrame(MainFrame.getLandscapePainter().getEmptyImage());
     }
 
     public void randomiseDots() {
-        MainFrame.getImagePanel().updateImageFrame(landscapePainter.getRandomDotsImage(blockFreq.getValue() / 1000f));
+        MainFrame.getImagePanel().updateImageFrame(
+            MainFrame.getLandscapePainter().getRandomDotsImage(blockFreq.getValue() / 1000f)
+        );
     }
 
     public void resize() {
-        MainFrame.getImagePanel().updateImageFrame(landscapePainter.getResizeImage(
+        MainFrame.getImagePanel().updateImageFrame(MainFrame.getLandscapePainter().getResizeImage(
             (Integer) widthLandscape.getValue(),
             (Integer) heightLandscape.getValue(),
             blockFreq.getValue() / 1000f
@@ -92,10 +101,14 @@ public class SettingsPanel extends JPanel{
     }
 
     public void interpolate() {
-        MainFrame.getImagePanel().updateImageFrame(landscapePainter.getInterpolatedImage(blockFreq.getValue() / 1000f));
+        MainFrame.getImagePanel().updateImageFrame(
+            MainFrame.getLandscapePainter().getInterpolatedImage(blockFreq.getValue() / 1000f)
+        );
     }
 
     public void draw() {
-        MainFrame.getImagePanel().updateImageFrame(landscapePainter.getImageFromMap(blockFreq.getValue() / 1000f));
+        MainFrame.getImagePanel().updateImageFrame(
+            MainFrame.getLandscapePainter().getImageFromMap(blockFreq.getValue() / 1000f)
+        );
     }
 }

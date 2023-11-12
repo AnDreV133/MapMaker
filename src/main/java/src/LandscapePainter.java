@@ -8,9 +8,11 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import static src.MainFrame.DEFAULT_SIZE_MAP;
+import static src.MainFrame.SIZE_CELL;
+
 public class LandscapePainter {
-     private final int SIZE_CELL = 12;
-     private final LandscapeGenerator generator = new LandscapeGenerator(SettingsPanel.DEFAULT_SIZE_MAP, SettingsPanel.DEFAULT_SIZE_MAP);
+     private final LandscapeGenerator generator = new LandscapeGenerator(DEFAULT_SIZE_MAP, DEFAULT_SIZE_MAP);
      private BufferedImage image;
      private Graphics2D graphics;
 

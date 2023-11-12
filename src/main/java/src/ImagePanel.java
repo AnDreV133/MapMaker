@@ -18,7 +18,9 @@ public class ImagePanel extends JPanel {
         addMouseListener(mouseChecker); // добавляем слушателей событий мыши
         addMouseMotionListener(mouseChecker);
         addMouseWheelListener(mouseChecker);
+
         addKeyListener(new KeyCheckerForMode());
+        addKeyListener(new KeyCheckerForObjects());
 
         mouseChecker.getImagePlace().setXY(
             (MainFrame.WIDTH_IMAGE_SPACE - imageIcon.getIconWidth()) / 2,
