@@ -2,8 +2,8 @@ package src.Assets;
 
 import java.awt.*;
 
-public class ShadedCell extends Asset {
-    public ShadedCell(int sideSize) {
+public class Stone extends Asset {
+    public Stone(int sideSize) {
         super(sideSize);
     }
 

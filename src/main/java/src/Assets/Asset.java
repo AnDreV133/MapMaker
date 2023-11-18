@@ -21,7 +21,7 @@ public abstract class Asset {
         return sideSize;
     }
 
-    public BufferedImage getMapObject() {
+    public BufferedImage getImage() {
         return image;
     }
 }

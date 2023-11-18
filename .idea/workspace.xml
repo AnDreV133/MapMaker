@@ -5,15 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="db21df1f-f0b6-4bc4-9e82-202f7a648608" name="Changes" comment="migrate project with rework classes">
+      <change afterPath="$PROJECT_DIR$/src/main/java/src/Assets/Block.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/src/Assets/Empty.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/src/BackgroundGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/src/ForegroundGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/src/IdObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/Assets/Asset.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Assets/Asset.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/Assets/ShadedCell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Assets/Stone.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/src/ImagePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/ImagePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/KeyCheckerForMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/KeyCheckerForMode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/KeyCheckerForObjects.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/KeyCheckerForObjects.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/LandscapePainter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/LandscapePainter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/KeyCheckerForMode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/KeyCheckerForObjects.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/LandscapeGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/LandscapePainter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/BackgroundPainter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/src/MainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/MainFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/MouseChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/MouseChecker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/ObjectsPainter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/ObjectsPainter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/SettingsPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/SettingsPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/MouseChecker.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/ObjectsGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/ObjectsPainter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/MainPainter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Point.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/SettingsPanel.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,11 +33,17 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -39,13 +55,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "D:/BigProject/MapMaker/src/main/java/src"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/BigProject/MapMaker/src/main/java/src&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\BigProject\MapMaker\src\main\java\src" />
@@ -94,7 +110,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="save_architecture" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -108,9 +136,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/src/KeyCheckerForObjects.java</url>
-          <line>10</line>
-          <option name="timeStamp" value="3" />
+          <url>file://$PROJECT_DIR$/src/main/java/src/ForegroundGenerator.java</url>
+          <line>67</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
