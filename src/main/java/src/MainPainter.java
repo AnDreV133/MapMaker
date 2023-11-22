@@ -16,9 +16,9 @@ public class MainPainter {
     private final int sizeCell;
     private IdObject currentIdObject;
 
-    public MainPainter(int heightInCell, int widthInCell, int sizeCell) {
-        this.heightInCell = heightInCell;
+    public MainPainter(int widthInCell, int heightInCell, int sizeCell) {
         this.widthInCell = widthInCell;
+        this.heightInCell = heightInCell;
         this.sizeCell = sizeCell;
         currentIdObject = IdObject.CELL;
         backgroundGenerator = new BackgroundGenerator(heightInCell, widthInCell);
@@ -110,7 +110,6 @@ public class MainPainter {
 
         redrawMapByArea(begin, end);
     }
-
 
 
     public void redrawMapByArea(Point begin, Point end) {

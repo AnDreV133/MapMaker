@@ -6,12 +6,6 @@ public class MainFrame extends JFrame {
     static public final int WIDTH_SETTINGS_SPACE = 300;
     static public final int WIDTH_IMAGE_SPACE = 600;
     static public final int HEIGHT_SPACE = 500;
-    static public final int SIZE_CELL = 12;
-
-    public static final int MIN_SIZE_MAP = 10;
-    public static final int MAX_SIZE_MAP = 200;
-    public static final int DEFAULT_SIZE_MAP = 50;
-    public static final int STEP_SIZE_MAP = 5;
     static private final ImagePanel imagePanel;
     static private final MainPainter MAIN_PAINTER;
 

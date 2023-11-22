@@ -7,15 +7,22 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 import static java.awt.event.KeyEvent.*;
-import static src.MainFrame.*;
 
 public class ImagePanel implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
-    //    private final ImageIcon imageIcon = new ImageIcon();
+    private static final int MIN_SIZE_MAP = 10;
+    private static final int MAX_SIZE_MAP = 200;
+    private static final int DEFAULT_SIZE_MAP = 50;
+    private static final int STEP_SIZE_MAP = 5;
+    private static final int SIZE_CELL = 12;
     private final Point imagePlace = new Point();
     private final Point mousePlace = new Point();
     private BufferedImage image;
 
-    private final MainPainter mainPainter = new MainPainter();
+    public ImagePanel() {
+
+    }
+
+    private final MainPainter mainPainter = new MainPainter(DEFAULT_SIZE_MAP, DEFAULT_SIZE_MAP, SIZE_CELL);
     private double scale = 1.0;
 
     private final JPanel imagePanel = new JPanel() {
@@ -76,7 +83,7 @@ public class ImagePanel implements KeyListener, MouseListener, MouseMotionListen
     private final JSlider blockFreq = new JSlider(200, 800, 500);
     private final JLabel objectName = new JLabel();
 
-    JPanel settingsPanel = new JPanel() {
+    private final JPanel settingsPanel = new JPanel() {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
