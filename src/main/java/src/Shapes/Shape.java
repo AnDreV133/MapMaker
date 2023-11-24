@@ -1,14 +1,14 @@
-package src.Assets;
+package src.Shapes;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public abstract class Asset {
+public abstract class Shape {
     protected Graphics2D g;
     private final int sideSize;
     protected BufferedImage image;
 
-    public Asset(int sideSize) {
+    public Shape(int sideSize) {
         this.sideSize = sideSize;
         image = new BufferedImage(sideSize, sideSize, BufferedImage.TYPE_INT_ARGB);
         g = image.createGraphics();

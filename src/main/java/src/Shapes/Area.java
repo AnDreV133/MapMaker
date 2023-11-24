@@ -1,8 +1,8 @@
-package src.Assets;
+package src.Shapes;
 
 import java.awt.*;
 
-public class Area extends Asset{
+public class Area extends Shape {
     public Area(int sideSize) {
         super(sideSize);
     }

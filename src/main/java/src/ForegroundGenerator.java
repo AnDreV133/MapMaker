@@ -19,12 +19,16 @@ public class ForegroundGenerator {
         matrix = new ArrayList<>();
 
         for (int y = 0; y < heightInCell; y++) {
-            matrix.add(new ArrayList<>(widthInCell));
+            ArrayList<IdObject> buf = new ArrayList<>();
+            for (int x = 0; x < widthInCell; x++) {
+                buf.add(IdObject.EMPTY);
+            }
+            matrix.add(buf);
         }
     }
 
     public void makeEmptyMatrix() {
-        addObjsByAreaWithFill(
+        addShapesByAreaWithFill(
             new Point(1, 1),
             new Point(widthInCell - 2, heightInCell - 2),
             IdObject.EMPTY
@@ -64,7 +68,7 @@ public class ForegroundGenerator {
         }
     }
 
-    public void addObjsByAreaWithFill(Point begin, Point end, IdObject idObject) {
+    public void addShapesByAreaWithFill(Point begin, Point end, IdObject idObject) {
         if (!(isPointInBound(begin) && isPointInBound(end)))
             return;
 
@@ -72,8 +76,9 @@ public class ForegroundGenerator {
 
         ArrayList<IdObject> buf = new ArrayList<>();
         for (int y = begin.getY(); y <= end.getY(); y++) {
-            for (int x = begin.getX(); x <= end.getX(); x++) {
-                buf.add(idObject);
+            for (int x = 0; x < widthInCell; x++) {
+                if (x >= begin.getX() && x <= end.getX())
+                    buf.add(idObject);
             }
             matrix.set(y, buf);
         }

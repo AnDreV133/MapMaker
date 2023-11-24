@@ -1,8 +1,8 @@
-package src.Assets;
+package src.Shapes;
 
 import java.awt.*;
 
-public class RectangleCover extends Asset {
+public class RectangleCover extends Shape {
 
     public RectangleCover(int sideSize) {
         super(sideSize);

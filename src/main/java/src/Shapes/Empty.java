@@ -1,6 +1,6 @@
-package src.Assets;
+package src.Shapes;
 
-public class Empty extends Asset {
+public class Empty extends Shape {
     public Empty(int sizeCell) {
         super(sizeCell);
     }

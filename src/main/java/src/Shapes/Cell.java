@@ -1,9 +1,8 @@
-package src.Assets;
+package src.Shapes;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
-public class Cell extends Asset {
+public class Cell extends Shape {
 
     public Cell(int sideSize) {
         super(sideSize);

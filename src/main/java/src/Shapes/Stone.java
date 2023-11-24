@@ -1,8 +1,8 @@
-package src.Assets;
+package src.Shapes;
 
 import java.awt.*;
 
-public class Stone extends Asset {
+public class Stone extends Shape {
     public Stone(int sideSize) {
         super(sideSize);
     }

@@ -1,12 +1,13 @@
 package src;
 
-import src.Assets.*;
+import src.Shapes.*;
+import src.Shapes.Shape;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 
-public class MainPainter {
+public class Painter {
     private Graphics2D graphics;
     private BufferedImage image;
     private final BackgroundGenerator backgroundGenerator;
@@ -16,7 +17,7 @@ public class MainPainter {
     private final int sizeCell;
     private IdObject currentIdObject;
 
-    public MainPainter(int widthInCell, int heightInCell, int sizeCell) {
+    public Painter(int widthInCell, int heightInCell, int sizeCell) {
         this.widthInCell = widthInCell;
         this.heightInCell = heightInCell;
         this.sizeCell = sizeCell;
@@ -34,7 +35,11 @@ public class MainPainter {
         makeEmptyMap();
     }
 
-    private Asset defineAsset(IdObject idObject) {
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    private Shape defineAsset(IdObject idObject) {
         switch (idObject) {
             case CELL -> {
                 return new Cell(sizeCell);
@@ -72,6 +77,20 @@ public class MainPainter {
         redrawBackgroundAndClearForeground();
     }
 
+    public void makeRandomMap() {
+        backgroundGenerator.makeRandomMatrix();
+
+        redrawMap();
+    }
+
+    public void interpolateMap() {
+        backgroundGenerator.interpolateMatrix();
+
+        redrawMap();
+    }
+
+
+
     public void makeEmptyMap() {
         backgroundGenerator.makeEmptyMatrix();
         foregroundGenerator.makeEmptyMatrix();
@@ -105,8 +124,8 @@ public class MainPainter {
     }
 
 
-    public void addObjsByAreaWithFill(Point begin, Point end) {
-        foregroundGenerator.addObjsByAreaWithFill(begin, end, currentIdObject);
+    public void addShapesByAreaWithFill(Point begin, Point end) {
+        foregroundGenerator.addShapesByAreaWithFill(begin, end, currentIdObject);
 
         redrawMapByArea(begin, end);
     }
@@ -115,86 +134,34 @@ public class MainPainter {
     public void redrawMapByArea(Point begin, Point end) {
         for (int y = begin.getY(); y <= end.getY(); y++) {
             for (int x = begin.getX(); x <= end.getX(); x++) {
-                drawObjByMatrices(x, y);
+                drawShapeByMatrices(x, y);
             }
         }
     }
 
-    private void drawObjByMatrices(int x, int y) {
+    private void drawShapeByMatrices(int x, int y) {
         if (backgroundGenerator.getMatrix().get(y).get(x) > freq) {
-            drawObj(x, y, new Cell(sizeCell));
-            drawObj(x, y, defineAsset(foregroundGenerator.getMatrix().get(y).get(x)));
+            drawShape(x, y, new Cell(sizeCell));
+            drawShape(x, y, defineAsset(foregroundGenerator.getMatrix().get(y).get(x)));
         } else {
-            drawObj(x, y, new Stone(sizeCell));
+            drawShape(x, y, new Stone(sizeCell));
         }
     }
 
     private void drawObjByBackgroundMatrix(int x, int y) {
         if (backgroundGenerator.getMatrix().get(y).get(x) > freq) {
-            drawObj(x, y, new Cell(sizeCell));
+            drawShape(x, y, new Cell(sizeCell));
         } else {
-            drawObj(x, y, new Stone(sizeCell));
+            drawShape(x, y, new Stone(sizeCell));
         }
     }
 
-    private void drawObj(int x, int y, Asset asset) {
+    private void drawShape(int x, int y, Shape shape) {
         graphics.drawImage(
-            asset.getImage(),
+            shape.getImage(),
             x * sizeCell,
             y * sizeCell,
             null
         );
     }
 }
-
-//    private boolean hasOtherIndex(Point begin, Point end, int index) {
-//        for (int i = begin.getX(); i < end.getX(); i++) {
-//            for (int j = begin.getY(); j < end.getY(); j++) {
-//                if (map.get(j).get(i) != index)
-//                    return false; // todo доделать
-//            }
-//        }
-//
-//        return true;
-//    }
-
-//    private final HashMap<IdObject, Asset> objectsDict = new HashMap<>() {{
-//        put(IdObject.CELL, new Cell(sizeCell));
-//        put(IdObject.STONE, new ShadedCell(sizeCell));
-//        put(IdObject.BLOCK, new Block(sizeCell));
-////        put(IdObjects.FENCE, new Cell(sizeCell));
-////        put(IdObjects.TOWER, new Cell(sizeCell));
-////        put(IdObjects.HOUSE, new Cell(sizeCell));
-////        put(IdObjects.WATER, new Cell(sizeCell));
-//    }};
-
-
-//    public void drawObjectsByEdge(Point begin, Point end, IdObjects idObject) {
-//        System.out.println(begin.getX() + " " + begin.getY() + " - " + end.getX() + " " + end.getY());
-//
-//        switch (idObject) {
-//            case CELL -> {
-//                addObject(new Cell(sizeCell), );
-//            }
-//        }
-//    } // todo потом доделать
-
-//    public ArrayList<ArrayList<Character>> addIndexOfObjectByEdge(Point begin, Point end, char idObject) {
-//        if (!(isDotInRange(begin) && isDotInRange(end)))
-//            return map;
-//        // todo swaps
-//        for (int i = begin.getX(); i < end.getX(); i++) {
-//            map.get(begin.getY()).set(i, idObject);
-//            map.get(end.getY()).set(i, idObject);
-//        }
-//
-//        for (int i = begin.getY(); i < end.getY(); i++) {
-//            ArrayList<Integer> buf = new ArrayList<>(map.get(i));
-//            buf.set(begin.getX(), idObject);
-//            buf.set(end.getX(), idObject);
-//
-//            map.set(i, buf);
-//        }
-//
-//        return map;
-//    }

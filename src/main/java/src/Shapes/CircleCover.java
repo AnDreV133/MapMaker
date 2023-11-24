@@ -1,9 +1,8 @@
-package src.Assets;
+package src.Shapes;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
-public class CircleCover extends Asset{
+public class CircleCover extends Shape {
     public CircleCover(int sideSize) {
         super(sideSize);
     }
