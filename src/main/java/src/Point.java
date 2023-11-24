@@ -70,11 +70,11 @@ public class Point {
     }
 
     public boolean xLessThan(Point point) {
-        return getX() > point.getX();
+        return getX() < point.getX();
     }
 
     public boolean yLessThan(Point point) {
-        return getY() > point.getY();
+        return getY() < point.getY();
     }
 
 

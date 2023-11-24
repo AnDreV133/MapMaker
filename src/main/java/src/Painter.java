@@ -112,7 +112,7 @@ public class Painter {
         redrawMap();
     }
 
-    public void setCurrentIdObject(IdObject currentIdObject) {
+    public void setCurrentShapeId(IdObject currentIdObject) {
         this.currentIdObject = currentIdObject;
     }
 

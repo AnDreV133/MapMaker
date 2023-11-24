@@ -5,20 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="db21df1f-f0b6-4bc4-9e82-202f7a648608" name="Changes" comment="almost ready generators and painter, next step is write display">
+      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Assets/Area.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Area.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Assets/Asset.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Shape.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Assets/Block.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Block.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Assets/Cell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Cell.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Assets/CircleCover.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/CircleCover.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Assets/Empty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Empty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Assets/RectangleCover.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/RectangleCover.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Assets/Stone.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Stone.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/BackgroundPainter.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/src/ForegroundGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/ForegroundGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/ImagePanel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/MainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/MainFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/MainPainter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Painter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/MainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/Painter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Painter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Point.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,13 +45,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/BigProject/MapMaker/src/main/java/src&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "D:/BigProject/MapMaker/src/main/java/src"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\BigProject\MapMaker\src\main\java\src" />
@@ -145,15 +141,20 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/src/ForegroundGenerator.java</url>
-          <line>71</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
         <breakpoint type="java-exception">
           <properties class="java.lang.IndexOutOfBoundsException" package="java.lang" />
           <option name="timeStamp" value="5" />
         </breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/src/App.java</url>
+          <line>180</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/src/App.java</url>
+          <line>246</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

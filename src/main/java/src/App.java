@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import static java.awt.event.KeyEvent.*;
 
-public class MainFrame extends JFrame implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
+public class App extends JFrame implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
     private static final int MIN_SIZE_MAP = 10;
     private static final int MAX_SIZE_MAP = 200;
     private static final int DEFAULT_SIZE_MAP = 50;
@@ -15,10 +15,48 @@ public class MainFrame extends JFrame implements KeyListener, MouseListener, Mou
     private static final int SIZE_CELL = 12;
     private static final int WIDTH_WINDOW = 900;
     private static final int HEIGHT_WINDOW = 600;
+    public static boolean isAltPressed;
     private final Point imagePlace = new Point();
     private final Point mousePlace = new Point();
+    private final Painter painter = new Painter(DEFAULT_SIZE_MAP, DEFAULT_SIZE_MAP, SIZE_CELL);
+    private final HashMap<IdObject, String> dictNameObjects = new HashMap<>() {{
+        put(IdObject.CELL, "cell");
+        put(IdObject.STONE, "stone");
+        put(IdObject.BLOCK, "block");
+        put(IdObject.FENCE, "fence");
+        put(IdObject.TOWER, "tower");
+        put(IdObject.HOUSE, "house");
+        put(IdObject.WATER, "water");
+    }};
+    private final JSpinner widthLandscape = new JSpinner();
+    private final JSpinner heightLandscape = new JSpinner();
+    private final JSlider blockFreq = new JSlider(200, 800, 500);
+    private final JLabel shapeName = new JLabel();
+    private double scale = 1.0;
+    private final JPanel imagePanel = new JPanel() {
+        @Override
+        public void paintComponent(Graphics g) { // переопределяем метод отрисовки компонента
+            super.paintComponent(g);
+            Graphics2D g2d = (Graphics2D) g; // используем 2D графику
+            g2d.scale(scale, scale); // масштабируем изображение
+            g2d.drawImage(
+                    painter.getImage(),
+                    (int) (imagePlace.getX() / scale),
+                    (int) (imagePlace.getY() / scale),
+                    this
+            );
+        }
+    };
+    private IdObject currentObjectIndex = IdObject.CELL;
+    private final JPanel settingsPanel = new JPanel() {
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            shapeName.setText(dictNameObjects.get(currentObjectIndex));
+        }
+    };
 
-    public MainFrame() {
+    public App() {
         initImagePanel();
         initSettingsPanel();
 
@@ -31,24 +69,6 @@ public class MainFrame extends JFrame implements KeyListener, MouseListener, Mou
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
-
-    private final Painter painter = new Painter(DEFAULT_SIZE_MAP, DEFAULT_SIZE_MAP, SIZE_CELL);
-    private double scale = 1.0;
-
-    private final JPanel imagePanel = new JPanel() {
-        @Override
-        public void paintComponent(Graphics g) { // переопределяем метод отрисовки компонента
-            super.paintComponent(g);
-            Graphics2D g2d = (Graphics2D) g; // используем 2D графику
-            g2d.scale(scale, scale); // масштабируем изображение
-            g2d.drawImage(
-                painter.getImage(),
-                (int) (imagePlace.getX() / scale),
-                (int) (imagePlace.getY() / scale),
-                this
-            );
-        }
-    };
 
     public void initImagePanel() {
 //        settingsPanel.empty();
@@ -66,18 +86,6 @@ public class MainFrame extends JFrame implements KeyListener, MouseListener, Mou
 //        );
     }
 
-    private final HashMap<IdObject, String> dictNameObjects = new HashMap<>() {{
-        put(IdObject.CELL, "cell");
-        put(IdObject.STONE, "stone");
-        put(IdObject.BLOCK, "block");
-        put(IdObject.FENCE, "fence");
-        put(IdObject.TOWER, "tower");
-        put(IdObject.HOUSE, "house");
-        put(IdObject.WATER, "water");
-    }};
-
-    private IdObject currentObjectIndex = IdObject.CELL;
-
     public HashMap<IdObject, String> getDictNameObjects() {
         return dictNameObjects;
     }
@@ -85,19 +93,6 @@ public class MainFrame extends JFrame implements KeyListener, MouseListener, Mou
     public IdObject getCurrentShapeId() {
         return currentObjectIndex;
     }
-
-    private final JSpinner widthLandscape = new JSpinner();
-    private final JSpinner heightLandscape = new JSpinner();
-    private final JSlider blockFreq = new JSlider(200, 800, 500);
-    private final JLabel shapeName = new JLabel();
-
-    private final JPanel settingsPanel = new JPanel() {
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            shapeName.setText(dictNameObjects.get(currentObjectIndex));
-        }
-    };
 
     public void initSettingsPanel() {
         settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.Y_AXIS));
@@ -114,8 +109,8 @@ public class MainFrame extends JFrame implements KeyListener, MouseListener, Mou
         JButton btnResize = new JButton();
         btnResize.addActionListener((l) -> {
             painter.resizeMap(
-                (Integer) widthLandscape.getValue(),
-                (Integer) heightLandscape.getValue()
+                    (Integer) widthLandscape.getValue(),
+                    (Integer) heightLandscape.getValue()
             );
             imagePanel.repaint();
         });
@@ -155,8 +150,6 @@ public class MainFrame extends JFrame implements KeyListener, MouseListener, Mou
 
         settingsPanel.add(shapeName);
     }
-
-    public static boolean isAltPressed;
 
     public void setCurrentIdObject(IdObject currentObjectIndex) {
         this.currentObjectIndex = currentObjectIndex;
@@ -201,20 +194,24 @@ public class MainFrame extends JFrame implements KeyListener, MouseListener, Mou
 
     private Point translateMouseCordToIndexOfMatrix(Point mouseCord) {
         return new Point(
-            (int) ((mouseCord.getX() - imagePlace.getX()) / (SIZE_CELL * scale)),
-            (int) ((mouseCord.getY() - imagePlace.getY()) / (SIZE_CELL * scale))
+                (int) ((mouseCord.getX() - imagePlace.getX()) / scale / SIZE_CELL),
+                (int) ((mouseCord.getY() - imagePlace.getY()) / scale / SIZE_CELL)
         );
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         if (isAltPressed) {
-            painter.setCurrentIdObject(getCurrentShapeId());
+            painter.setCurrentShapeId(getCurrentShapeId());
+            System.out.println(translateMouseCordToIndexOfMatrix(mousePlace).getX() + " " + translateMouseCordToIndexOfMatrix(mousePlace).getY() + " - " +
+                    translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY())).getX() + " " + translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY())).getY());
             painter.addShapesByAreaWithFill(
-                translateMouseCordToIndexOfMatrix(mousePlace),
-                translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY()))
+                    translateMouseCordToIndexOfMatrix(mousePlace),
+                    translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY()))
             );
-        } // для добавления объектов
+
+            imagePanel.repaint();
+        }
     }
 
     @Override
@@ -231,8 +228,8 @@ public class MainFrame extends JFrame implements KeyListener, MouseListener, Mou
     public void mouseDragged(MouseEvent e) {
         if (!isAltPressed) {
             imagePlace.setXY(
-                imagePlace.getX() + e.getX() - mousePlace.getX(),
-                imagePlace.getY() + e.getY() - mousePlace.getY()
+                    imagePlace.getX() + e.getX() - mousePlace.getX(),
+                    imagePlace.getY() + e.getY() - mousePlace.getY()
             );
 
             imagePanel.repaint();
@@ -248,15 +245,13 @@ public class MainFrame extends JFrame implements KeyListener, MouseListener, Mou
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        if (!isAltPressed) {
-            int notches = e.getWheelRotation();
-            if (notches < 0) {
-                scale *= 1.1;
-            } else if (scale >= 0.1) {
-                scale /= 1.1;
-            }
-
-            imagePanel.repaint();
+        int notches = e.getWheelRotation();
+        if (notches < 0) {
+            scale *= 1.1;
+        } else if (scale >= 0.1) {
+            scale /= 1.1;
         }
+
+        imagePanel.repaint();
     }
 }

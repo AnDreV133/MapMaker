@@ -29,9 +29,9 @@ public class ForegroundGenerator {
 
     public void makeEmptyMatrix() {
         addShapesByAreaWithFill(
-            new Point(1, 1),
-            new Point(widthInCell - 2, heightInCell - 2),
-            IdObject.EMPTY
+                new Point(1, 1),
+                new Point(widthInCell - 2, heightInCell - 2),
+                IdObject.EMPTY
         );
     }
 
@@ -53,14 +53,25 @@ public class ForegroundGenerator {
             return;
         }
 
+        // e . .
+        // . . .
+        // . . b
         if (begin.biggerOrEqualThan(end)) {
             Point temp = new Point(begin.getX(), begin.getY());
             begin.setXY(end.getX(), end.getY());
             end.setXY(temp.getX(), temp.getY());
+
+            // . . b
+            // . . .
+            // e . .
         } else if (begin.xBiggerThan(end) && begin.yLessThan(end)) {
             int temp = begin.getX();
             begin.setX(end.getX());
             end.setX(temp);
+
+            // . . e
+            // . . .
+            // b . .
         } else if (begin.xLessThan(end) && begin.yBiggerThan(end)) {
             int temp = begin.getY();
             begin.setY(end.getY());
@@ -74,13 +85,10 @@ public class ForegroundGenerator {
 
         correctingPoints(begin, end);
 
-        ArrayList<IdObject> buf = new ArrayList<>();
         for (int y = begin.getY(); y <= end.getY(); y++) {
-            for (int x = 0; x < widthInCell; x++) {
-                if (x >= begin.getX() && x <= end.getX())
-                    buf.add(idObject);
+            for (int x = begin.getX(); x <= end.getX(); x++) {
+                matrix.get(y).set(x, idObject);
             }
-            matrix.set(y, buf);
         }
     }
 
