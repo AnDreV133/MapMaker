@@ -16,17 +16,18 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
     private static final int WIDTH_WINDOW = 900;
     private static final int HEIGHT_WINDOW = 600;
     public static boolean isAltPressed;
+    public static boolean isCtrlPressed;
     private final Point imagePlace = new Point();
     private final Point mousePlace = new Point();
     private final Painter painter = new Painter(DEFAULT_SIZE_MAP, DEFAULT_SIZE_MAP, SIZE_CELL);
-    private final HashMap<IdObject, String> dictNameObjects = new HashMap<>() {{
-        put(IdObject.CELL, "cell");
-        put(IdObject.STONE, "stone");
-        put(IdObject.BLOCK, "block");
-        put(IdObject.FENCE, "fence");
-        put(IdObject.TOWER, "tower");
-        put(IdObject.HOUSE, "house");
-        put(IdObject.WATER, "water");
+    private final HashMap<ShapeId, String> dictNameObjects = new HashMap<>() {{
+        put(ShapeId.CELL, "cell");
+        put(ShapeId.STONE, "stone");
+        put(ShapeId.BLOCK, "block");
+        put(ShapeId.FENCE, "fence");
+        put(ShapeId.TOWER, "tower");
+        put(ShapeId.HOUSE, "house");
+        put(ShapeId.WATER, "water");
     }};
     private final JSpinner widthLandscape = new JSpinner();
     private final JSpinner heightLandscape = new JSpinner();
@@ -47,7 +48,7 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
             );
         }
     };
-    private IdObject currentObjectIndex = IdObject.CELL;
+    private ShapeId currentObjectIndex = ShapeId.CELL;
     private final JPanel settingsPanel = new JPanel() {
         @Override
         protected void paintComponent(Graphics g) {
@@ -71,26 +72,19 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
     }
 
     public void initImagePanel() {
-//        settingsPanel.empty();
-
         imagePanel.addMouseListener(this);
         imagePanel.addMouseMotionListener(this);
         imagePanel.addMouseWheelListener(this);
 
         imagePanel.addKeyListener(this);
         imagePanel.addKeyListener(this);
-
-//        imagePlace.setXY(
-//            (MainFrame.WIDTH_IMAGE_SPACE - imageIcon.getIconWidth()) / 2,
-//            (MainFrame.HEIGHT_SPACE - imageIcon.getIconHeight()) / 2
-//        );
     }
 
-    public HashMap<IdObject, String> getDictNameObjects() {
+    public HashMap<ShapeId, String> getDictNameObjects() {
         return dictNameObjects;
     }
 
-    public IdObject getCurrentShapeId() {
+    public ShapeId getCurrentShapeId() {
         return currentObjectIndex;
     }
 
@@ -151,20 +145,20 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
         settingsPanel.add(shapeName);
     }
 
-    public void setCurrentIdObject(IdObject currentObjectIndex) {
+    public void setCurrentIdObject(ShapeId currentObjectIndex) {
         this.currentObjectIndex = currentObjectIndex;
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
         switch (e.getKeyChar()) { // todo call generator, move dict to painter
-            case VK_0 -> setCurrentIdObject(IdObject.CELL);
-            case VK_1 -> setCurrentIdObject(IdObject.STONE);
-            case VK_2 -> setCurrentIdObject(IdObject.BLOCK);
-            case VK_3 -> setCurrentIdObject(IdObject.FENCE);
-            case VK_4 -> setCurrentIdObject(IdObject.TOWER);
-            case VK_5 -> setCurrentIdObject(IdObject.HOUSE);
-            case VK_6 -> setCurrentIdObject(IdObject.WATER);
+            case VK_0 -> setCurrentIdObject(ShapeId.CELL);
+            case VK_1 -> setCurrentIdObject(ShapeId.STONE);
+            case VK_2 -> setCurrentIdObject(ShapeId.BLOCK);
+            case VK_3 -> setCurrentIdObject(ShapeId.FENCE);
+            case VK_4 -> setCurrentIdObject(ShapeId.TOWER);
+            case VK_5 -> setCurrentIdObject(ShapeId.HOUSE);
+            case VK_6 -> setCurrentIdObject(ShapeId.WATER);
         }
 
         settingsPanel.repaint();
@@ -174,12 +168,15 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
     public void keyPressed(KeyEvent e) {
         if (e.isAltDown()) {
             isAltPressed = true;
+        } else if (e.isControlDown()) {
+            isCtrlPressed = true;
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         isAltPressed = false;
+        isCtrlPressed = false;
     }
 
     @Override
@@ -201,17 +198,28 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (isAltPressed) {
+        if (isAltPressed && isCtrlPressed) {
             painter.setCurrentShapeId(getCurrentShapeId());
             System.out.println(translateMouseCordToIndexOfMatrix(mousePlace).getX() + " " + translateMouseCordToIndexOfMatrix(mousePlace).getY() + " - " +
                     translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY())).getX() + " " + translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY())).getY());
-            painter.addShapesByAreaWithFill(
+            painter.forceDrawShapes(
+                    translateMouseCordToIndexOfMatrix(mousePlace),
+                    translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY()))
+            );
+        }
+
+        if (isAltPressed && !isCtrlPressed) {
+            painter.setCurrentShapeId(getCurrentShapeId());
+            System.out.println(translateMouseCordToIndexOfMatrix(mousePlace).getX() + " " + translateMouseCordToIndexOfMatrix(mousePlace).getY() + " - " +
+                    translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY())).getX() + " " + translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY())).getY());
+            painter.drawShapes(
                     translateMouseCordToIndexOfMatrix(mousePlace),
                     translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY()))
             );
 
-            imagePanel.repaint();
         }
+
+        imagePanel.repaint();
     }
 
     @Override
@@ -221,7 +229,6 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
 
     @Override
     public void mouseExited(MouseEvent e) {
-
     }
 
     @Override

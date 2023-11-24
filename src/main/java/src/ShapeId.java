@@ -1,6 +1,6 @@
 package src;
 
-public enum IdObject {
+public enum ShapeId {
     EMPTY,
     CELL,
     STONE,

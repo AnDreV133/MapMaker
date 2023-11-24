@@ -3,7 +3,7 @@ package src;
 import java.util.ArrayList;
 
 public class ForegroundGenerator {
-    private ArrayList<ArrayList<IdObject>> matrix;
+    private ArrayList<ArrayList<ShapeId>> matrix;
 
     private int heightInCell, widthInCell;
 
@@ -19,9 +19,9 @@ public class ForegroundGenerator {
         matrix = new ArrayList<>();
 
         for (int y = 0; y < heightInCell; y++) {
-            ArrayList<IdObject> buf = new ArrayList<>();
+            ArrayList<ShapeId> buf = new ArrayList<>();
             for (int x = 0; x < widthInCell; x++) {
-                buf.add(IdObject.EMPTY);
+                buf.add(ShapeId.EMPTY);
             }
             matrix.add(buf);
         }
@@ -31,7 +31,7 @@ public class ForegroundGenerator {
         addShapesByAreaWithFill(
                 new Point(1, 1),
                 new Point(widthInCell - 2, heightInCell - 2),
-                IdObject.EMPTY
+                ShapeId.EMPTY
         );
     }
 
@@ -44,11 +44,21 @@ public class ForegroundGenerator {
         makeEmptyMatrix();
     }
 
-    private boolean isPointInBound(Point point) {
-        return point.getX() > 0 && point.getY() > 0 && point.getX() < widthInCell - 1 && point.getY() < heightInCell - 1;
+    private void movePointToBound(Point point) {
+        if (point.getX() < 0)
+            point.setX(0);
+        if (point.getX() >= widthInCell)
+            point.setX(widthInCell - 1);
+        if (point.getY() < 0)
+            point.setY(0);
+        if (point.getY() >= heightInCell)
+            point.setY(heightInCell - 1);
     }
 
     private void correctingPoints(Point begin, Point end) {
+        movePointToBound(begin);
+        movePointToBound(end);
+
         if (begin.equals(end) || begin.lessThan(end)) {
             return;
         }
@@ -79,39 +89,49 @@ public class ForegroundGenerator {
         }
     }
 
-    public void addShapesByAreaWithFill(Point begin, Point end, IdObject idObject) {
-        if (!(isPointInBound(begin) && isPointInBound(end)))
-            return;
-
+    public void addShapesByAreaWithFill(Point begin, Point end, ShapeId shapeId) {
         correctingPoints(begin, end);
 
         for (int y = begin.getY(); y <= end.getY(); y++) {
             for (int x = begin.getX(); x <= end.getX(); x++) {
-                matrix.get(y).set(x, idObject);
+                matrix.get(y).set(x, shapeId);
             }
         }
     }
 
-    public void addObjAtEdge(Point begin, Point end, IdObject idObject) {
+    public void addShapesAtEdge(Point begin, Point end, ShapeId shapeId) {
+        correctingPoints(begin, end);
+
         for (int x = begin.getX(); x <= end.getX(); x++) {
-            matrix.get(begin.getY()).set(x, idObject);
-            matrix.get(end.getY()).set(x, idObject);
+            matrix.get(begin.getY()).set(x, shapeId);
+            matrix.get(end.getY()).set(x, shapeId);
         }
 
-        for (int i = begin.getY(); i <= end.getY(); i++) {
-            ArrayList<IdObject> buf = new ArrayList<>(matrix.get(i));
-            buf.set(begin.getX(), idObject);
-            buf.set(end.getX(), idObject);
-
-            matrix.set(i, buf);
+        for (int y = begin.getY(); y <= end.getY(); y++) {
+            matrix.get(y).set(begin.getX(), shapeId);
+            matrix.get(y).set(end.getX(), shapeId);
         }
     }
 
-    public void addObjAsBlot(Point begin, Point end, IdObject idObject) {
-        // todo надо придумать
+    public void addObjAsBlot(Point begin, Point end, ShapeId shapeId) {
+        correctingPoints(begin, end);
+
+        // todo make by interpolate
     }
 
-    public ArrayList<ArrayList<IdObject>> getMatrix() {
+    public ArrayList<ArrayList<ShapeId>> getMatrix() {
         return matrix;
+    }
+
+    public void analyzeByIdAndAddShapes(Point begin, Point end, ShapeId shapeId) {
+        switch (shapeId) {
+            case CELL, BLOCK, STONE -> addShapesByAreaWithFill(begin,end, shapeId);
+            case FENCE -> addShapesAtEdge(begin, end, shapeId);
+            case WATER -> addObjAsBlot(begin, end, shapeId);
+//            case FENCE ->return  new (sizeCell);
+//            case TOWER ->return new (sizeCell);
+//            case HOUSE -> return new (sizeCell);
+//            case WATER ->return  new (sizeCell);
+        }
     }
 }
