@@ -15,7 +15,7 @@ public abstract class Shape {
         drawMapObject();
     }
 
-    protected abstract void drawMapObject();
+    public abstract void drawMapObject();
 
     public int getSideSize() {
         return sideSize;

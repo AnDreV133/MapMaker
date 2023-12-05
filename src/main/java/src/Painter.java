@@ -1,6 +1,10 @@
 package src;
 
 import src.Shapes.*;
+import src.Shapes.Door.DoorDown;
+import src.Shapes.Door.DoorLeft;
+import src.Shapes.Door.DoorRight;
+import src.Shapes.Door.DoorUp;
 import src.Shapes.Shape;
 import src.Shapes.Fence.*;
 
@@ -51,12 +55,10 @@ public class Painter {
             case STONE -> {
                 return new Stone(sizeCell);
             }
-            case FENCE -> {
-                return new FenceUp(sizeCell);
+            case HOUSE -> {
+                return new House(sizeCell);
             }
-
 //            case TOWER ->return new (sizeCell);
-//            case HOUSE -> return new (sizeCell);
 //            case WATER ->return  new (sizeCell);
             default -> {
                 return new Empty(sizeCell);
@@ -141,7 +143,7 @@ public class Painter {
                     drawShape(x, y, new Cell(sizeCell));
                     defineAndDrawShape(x, y, foregroundGenerator.getMatrix().get(y).get(x));
                 } else {
-                    foregroundGenerator.getMatrix().get(y).set(x, ShapeId.EMPTY);
+//                    foregroundGenerator.getMatrix().get(y).set(x, ShapeId.EMPTY);
                     drawShape(x, y, new Stone(sizeCell));
                 }
             }
@@ -157,6 +159,8 @@ public class Painter {
     public void forceRedrawMapByArea(Point begin, Point end) {
         for (int y = begin.getY(); y <= end.getY(); y++) {
             for (int x = begin.getX(); x <= end.getX(); x++) {
+                backgroundGenerator.setValInMatrix(x, y, currentShapeId == ShapeId.STONE ? 0.0f : 1.0f);
+
                 drawShape(x, y, new Cell(sizeCell));
                 defineAndDrawShape(x, y, foregroundGenerator.getMatrix().get(y).get(x));
             }
@@ -165,16 +169,22 @@ public class Painter {
 
     private void defineAndDrawShape(int x, int y, ShapeId shapeId) {
         switch (shapeId) {
-            case FENCE -> drawShapeWithOrientation(x, y, shapeId, new FenceMiddle(sizeCell),
+            case FENCE -> drawShapeWithOrientationAddAll(x, y, shapeId, new FenceMiddle(sizeCell),
                     new FenceLeft(sizeCell), new FenceRight(sizeCell),
                     new FenceUp(sizeCell), new FenceDown(sizeCell));
+            case DOOR -> {
+                if (foregroundGenerator.getMatrix().get(y).get(x) == ShapeId.HOUSE)
+                    drawShapeWithOrientationAddAll(x, y, ShapeId.HOUSE, new Empty(sizeCell),
+                            new DoorLeft(sizeCell), new DoorRight(sizeCell),
+                            new DoorUp(sizeCell), new DoorDown(sizeCell));
+            }
             default -> drawShape(x, y, defineAsset(foregroundGenerator.getMatrix().get(y).get(x)));
         }
     }
 
-    private void drawShapeWithOrientation(int x, int y, ShapeId shapeId, Shape middleShape,
-                                          Shape leftShape, Shape rightShape,
-                                          Shape upShape, Shape downShape) {
+    private void drawShapeWithOrientationAddAll(int x, int y, ShapeId shapeId, Shape middleShape,
+                                                Shape leftShape, Shape rightShape,
+                                                Shape upShape, Shape downShape) {
         drawShape(x, y, middleShape);
         if (foregroundGenerator.getMatrix().get(y).get(x - 1) == shapeId)
             drawShape(x, y, leftShape);
@@ -184,6 +194,27 @@ public class Painter {
             drawShape(x, y, upShape);
         if (foregroundGenerator.getMatrix().get(y + 1).get(x) == shapeId)
             drawShape(x, y, downShape);
+    }
+
+    private void drawShapeWithOrientationAddOne(int x, int y, ShapeId shapeId,
+                                                Shape middleShape, Shape defaultShape,
+                                                Shape leftShape, Shape rightShape,
+                                                Shape upShape, Shape downShape) {
+        boolean isShapeOnLeft = false;
+        boolean isShapeOnRight = false;
+        boolean isShapeOnUp = false;
+        boolean isShapeOnDown = false;
+        if (foregroundGenerator.getMatrix().get(y).get(x - 1) == shapeId)
+            isShapeOnLeft = true;
+        if (foregroundGenerator.getMatrix().get(y).get(x + 1) == shapeId)
+            isShapeOnRight = true;
+        if (foregroundGenerator.getMatrix().get(y - 1).get(x) == shapeId)
+            isShapeOnUp = true;
+        if (foregroundGenerator.getMatrix().get(y + 1).get(x) == shapeId)
+            isShapeOnDown = true;
+
+        if(isShapeOnLeft && isShapeOnRight && isShapeOnUp && isShapeOnDown)
+            drawShape(x, y, middleShape); // todo привязать отрисовку дверей к сочетанию дороги и дома
 
     }
 

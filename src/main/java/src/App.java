@@ -20,7 +20,7 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
     private final Point imagePlace = new Point();
     private final Point mousePlace = new Point();
     private final Painter painter = new Painter(DEFAULT_SIZE_MAP, DEFAULT_SIZE_MAP, SIZE_CELL);
-    private final HashMap<ShapeId, String> dictNameObjects = new HashMap<>() {{
+    private final HashMap<ShapeId, String> dictNameObjects = new HashMap<>() {{ // todo rewrite to switch
         put(ShapeId.CELL, "cell");
         put(ShapeId.STONE, "stone");
         put(ShapeId.BLOCK, "block");
@@ -48,12 +48,12 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
             );
         }
     };
-    private ShapeId currentObjectIndex = ShapeId.CELL;
+    private ShapeId currentShapeId = ShapeId.CELL;
     private final JPanel settingsPanel = new JPanel() {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            shapeName.setText(dictNameObjects.get(currentObjectIndex));
+            shapeName.setText(dictNameObjects.get(currentShapeId));
         }
     };
 
@@ -85,14 +85,12 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
     }
 
     public ShapeId getCurrentShapeId() {
-        return currentObjectIndex;
+        return currentShapeId;
     }
 
     public void initSettingsPanel() {
         settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.Y_AXIS));
-//        settingsPanel.setSize(MainFrame.WIDTH_SETTINGS_SPACE, MainFrame.HEIGHT_SPACE);
 
-        // Задание размеров поля
         settingsPanel.add(new JLabel("Sizes"));
         widthLandscape.setModel(new SpinnerNumberModel(DEFAULT_SIZE_MAP, MIN_SIZE_MAP, MAX_SIZE_MAP, STEP_SIZE_MAP));
         settingsPanel.add(widthLandscape);
@@ -145,21 +143,24 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
         settingsPanel.add(shapeName);
     }
 
-    public void setCurrentIdObject(ShapeId currentObjectIndex) {
-        this.currentObjectIndex = currentObjectIndex;
+    public void setCurrentShapeId(ShapeId currentShapeId) {
+        if (currentShapeId == null) return;
+
+        this.currentShapeId = currentShapeId;
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        switch (e.getKeyChar()) { // todo call generator, move dict to painter
-            case VK_0 -> setCurrentIdObject(ShapeId.CELL);
-            case VK_1 -> setCurrentIdObject(ShapeId.STONE);
-            case VK_2 -> setCurrentIdObject(ShapeId.BLOCK);
-            case VK_3 -> setCurrentIdObject(ShapeId.FENCE);
-            case VK_4 -> setCurrentIdObject(ShapeId.TOWER);
-            case VK_5 -> setCurrentIdObject(ShapeId.HOUSE);
-            case VK_6 -> setCurrentIdObject(ShapeId.WATER);
-        }
+        setCurrentShapeId(switch (e.getKeyChar()) {
+            case VK_0 -> ShapeId.CELL;
+            case VK_1 -> ShapeId.STONE;
+            case VK_2 -> ShapeId.BLOCK;
+            case VK_3 -> ShapeId.FENCE;
+            case VK_4 -> ShapeId.TOWER;
+            case VK_5 -> ShapeId.HOUSE;
+            case VK_6 -> ShapeId.WATER;
+            default -> null;
+        });
 
         settingsPanel.repaint();
     }
@@ -199,7 +200,7 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
     @Override
     public void mouseReleased(MouseEvent e) {
         if (isAltPressed && isCtrlPressed) {
-            painter.setCurrentShapeId(getCurrentShapeId());
+            painter.setCurrentShapeId(currentShapeId);
             System.out.println(translateMouseCordToIndexOfMatrix(mousePlace).getX() + " " + translateMouseCordToIndexOfMatrix(mousePlace).getY() + " - " +
                     translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY())).getX() + " " + translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY())).getY());
             painter.forceDrawShapes(
@@ -209,7 +210,7 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
         }
 
         if (isAltPressed && !isCtrlPressed) {
-            painter.setCurrentShapeId(getCurrentShapeId());
+            painter.setCurrentShapeId(currentShapeId);
             System.out.println(translateMouseCordToIndexOfMatrix(mousePlace).getX() + " " + translateMouseCordToIndexOfMatrix(mousePlace).getY() + " - " +
                     translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY())).getX() + " " + translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY())).getY());
             painter.drawShapes(

@@ -83,6 +83,10 @@ public class BackgroundGenerator {
         }
     }
 
+    public void setValInMatrix(int x, int y, float val) {
+        matrix.get(y).set(x, val);
+    }
+
     private void addOrUpdateStrokeOfMap(int index, ArrayList<Float> val) {
         if (index < matrix.size()) {
             matrix.set(index, val);

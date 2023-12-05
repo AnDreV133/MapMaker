@@ -113,7 +113,7 @@ public class ForegroundGenerator {
         }
     }
 
-    public void addObjAsBlot(Point begin, Point end, ShapeId shapeId) {
+    public void addShapesAsBlot(Point begin, Point end, ShapeId shapeId) {
         correctingPoints(begin, end);
 
         // todo make by interpolate
@@ -125,13 +125,11 @@ public class ForegroundGenerator {
 
     public void analyzeByIdAndAddShapes(Point begin, Point end, ShapeId shapeId) {
         switch (shapeId) {
-            case CELL, BLOCK, STONE -> addShapesByAreaWithFill(begin,end, shapeId);
+            case CELL, BLOCK, STONE, HOUSE -> addShapesByAreaWithFill(begin, end, shapeId);
             case FENCE -> addShapesAtEdge(begin, end, shapeId);
-            case WATER -> addObjAsBlot(begin, end, shapeId);
-//            case FENCE ->return  new (sizeCell);
+            case WATER -> addShapesAsBlot(begin, end, shapeId);
+            default -> System.out.println("Not define shape");
 //            case TOWER ->return new (sizeCell);
-//            case HOUSE -> return new (sizeCell);
-//            case WATER ->return  new (sizeCell);
         }
     }
 }

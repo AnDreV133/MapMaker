@@ -8,7 +8,7 @@ public class FenceLeft extends Shape {
     }
 
     @Override
-    protected void drawMapObject() {
+    public void drawMapObject() {
         g.setColor(FenceColor.getColor());
         g.fillRect(0, getSideSize() / 3, getSideSize() / 4, getSideSize() / 3);
     }

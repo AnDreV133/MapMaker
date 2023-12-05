@@ -8,7 +8,7 @@ public class Area extends Shape {
     }
 
     @Override
-    protected void drawMapObject() {
+    public void drawMapObject() {
         g.setColor(new Color(128, 128, 128, 50));
         g.fillRect(0,0, getSideSize(), getSideSize());
     }

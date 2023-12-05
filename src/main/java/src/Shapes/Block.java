@@ -8,7 +8,7 @@ public class Block extends Shape {
     }
 
     @Override
-    protected void drawMapObject() {
+    public void drawMapObject() {
         g.setColor(new Color(228, 157, 36));
         g.fillRect(0, 0, getSideSize(), getSideSize());
 //        g.setColor(new Color(150, 150, 150));
