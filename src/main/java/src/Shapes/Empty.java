@@ -6,6 +6,6 @@ public class Empty extends Shape {
     }
 
     @Override
-    public void drawMapObject() {
+    public void draw() {
     }
 }

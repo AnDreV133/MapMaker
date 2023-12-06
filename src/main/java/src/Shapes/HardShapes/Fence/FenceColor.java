@@ -1,4 +1,4 @@
-package src.Shapes.Fence;
+package src.Shapes.HardShapes.Fence;
 
 import java.awt.*;
 

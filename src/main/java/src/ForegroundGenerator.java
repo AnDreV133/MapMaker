@@ -125,7 +125,7 @@ public class ForegroundGenerator {
 
     public void analyzeByIdAndAddShapes(Point begin, Point end, ShapeId shapeId) {
         switch (shapeId) {
-            case CELL, BLOCK, STONE, HOUSE -> addShapesByAreaWithFill(begin, end, shapeId);
+            case CELL, BLOCK, STONE, HOUSE, ROAD -> addShapesByAreaWithFill(begin, end, shapeId);
             case FENCE -> addShapesAtEdge(begin, end, shapeId);
             case WATER -> addShapesAsBlot(begin, end, shapeId);
             default -> System.out.println("Not define shape");

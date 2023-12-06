@@ -8,8 +8,8 @@ public class Road extends Shape {
     }
 
     @Override
-    public void drawMapObject() {
-        g.setColor(new Color(210, 180, 140));
+    public void draw() {
+        g.setColor(new Color(255, 228, 195));
         g.fillRect(0, 0, getSideSize(), getSideSize());
     }
 }

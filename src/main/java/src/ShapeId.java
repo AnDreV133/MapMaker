@@ -10,5 +10,6 @@ public enum ShapeId {
     HOUSE,
     WINDOW,
     DOOR,
-    WATER
+    WATER,
+    ROAD
 }

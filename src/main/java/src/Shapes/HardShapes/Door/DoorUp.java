@@ -1,6 +1,6 @@
-package src.Shapes.Door;
+package src.Shapes.HardShapes.Door;
 
-import src.Shapes.House;
+import src.Shapes.HardShapes.House.HouseFill;
 import src.Shapes.Shape;
 
 import java.awt.*;
@@ -11,8 +11,8 @@ public class DoorUp extends Shape {
     }
 
     @Override
-    public void drawMapObject() {
-        new House(getSideSize()).drawMapObject();
+    public void draw() {
+        new HouseFill(getSideSize()).draw();
         g.setColor(new Color(93, 64, 26));
         g.fillRect(0, 0, getSideSize(), 1);
     }

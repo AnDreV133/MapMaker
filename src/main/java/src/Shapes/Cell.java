@@ -9,7 +9,7 @@ public class Cell extends Shape {
     }
 
     @Override
-    public void drawMapObject() {
+    public void draw() {
         g.setColor(Color.white);
         g.fillRect(0, 0, image.getWidth(), image.getHeight());
         g.setColor(Color.gray);

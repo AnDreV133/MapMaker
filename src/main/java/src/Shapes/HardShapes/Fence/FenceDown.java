@@ -1,4 +1,4 @@
-package src.Shapes.Fence;
+package src.Shapes.HardShapes.Fence;
 
 import src.Shapes.Shape;
 
@@ -8,8 +8,8 @@ public class FenceDown extends Shape {
     }
 
     @Override
-    public void drawMapObject() {
+    public void draw() {
         g.setColor(FenceColor.getColor());
-        g.fillRect(getSideSize() / 3, getSideSize() / 4 * 3, getSideSize() / 3, getSideSize() / 4);
+        g.fillRect(SIDE_SIZE / 3, SIDE_SIZE / 4 * 3, SIDE_SIZE / 3, SIDE_SIZE / 4);
     }
 }

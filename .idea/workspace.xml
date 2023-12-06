@@ -4,27 +4,42 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="db21df1f-f0b6-4bc4-9e82-202f7a648608" name="Changes" comment="now user can fully add shapes force or normal">
-      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Door/DoorDown.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Door/DoorLeft.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Door/DoorRight.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Door/DoorUp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/House.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Road.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+    <list default="true" id="db21df1f-f0b6-4bc4-9e82-202f7a648608" name="Changes" comment="add new shapes, some fix">
+      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/HardShape.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/House/House.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/House/HouseColor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/House/HouseDown.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/House/HouseFill.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/House/HouseLeft.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/House/HouseLeftDown.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/House/HouseLeftUp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/House/HouseRight.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/House/HouseRightDown.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/House/HouseRightUp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/House/HouseUp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/src/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/BackgroundGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/BackgroundGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/src/ForegroundGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/ForegroundGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/src/Painter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Painter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/ShapeId.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/ShapeId.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Area.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Area.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Block.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Block.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Cell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Cell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/CircleCover.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/CircleCover.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Door/DoorDown.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Door/DoorDown.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Door/DoorLeft.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Door/DoorLeft.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Door/DoorRight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Door/DoorRight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Door/DoorUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Door/DoorUp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Empty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Empty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Fence/FenceDown.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Fence/FenceDown.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Fence/FenceLeft.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Fence/FenceLeft.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Fence/FenceMiddle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Fence/FenceMiddle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Fence/FenceRight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Fence/FenceRight.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Fence/FenceUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Fence/FenceUp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Fence/FenceColor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceColor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Fence/FenceDown.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceDown.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Fence/FenceLeft.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceLeft.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Fence/FenceMiddle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceCentral.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Fence/FenceRight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceRight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Fence/FenceUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceUp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/House.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/RectangleCover.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/RectangleCover.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Road.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Road.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Shape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Shape.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Stone.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Stone.java" afterDir="false" />
     </list>
@@ -44,7 +59,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="new_architecture" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -71,6 +86,8 @@
       <recent name="D:\BigProject\MapMaker\src\main\java\src" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="src.Shapes.HardShapes.House" />
+      <recent name="src.Shapes" />
       <recent name="src.Shapes.Fence" />
       <recent name="src" />
     </key>
@@ -135,7 +152,14 @@
       <option name="project" value="LOCAL" />
       <updated>1700849995345</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="add new shapes, some fix">
+      <created>1701806348892</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1701806348892</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -149,7 +173,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="new_architecture" />
+                        <option value="CWF" />
                       </list>
                     </value>
                   </entry>
@@ -166,7 +190,8 @@
     <MESSAGE value="almost ready generators and painter, next step is write display" />
     <MESSAGE value="now user can add shape" />
     <MESSAGE value="now user can fully add shapes force or normal" />
-    <option name="LAST_COMMIT_MESSAGE" value="now user can fully add shapes force or normal" />
+    <MESSAGE value="add new shapes, some fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="add new shapes, some fix" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -176,9 +201,9 @@
           <option name="timeStamp" value="5" />
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/src/ForegroundGenerator.java</url>
-          <line>61</line>
-          <option name="timeStamp" value="16" />
+          <url>file://$PROJECT_DIR$/src/main/java/src/Painter.java</url>
+          <line>209</line>
+          <option name="timeStamp" value="18" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

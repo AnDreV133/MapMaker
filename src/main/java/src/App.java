@@ -27,6 +27,7 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
         put(ShapeId.FENCE, "fence");
         put(ShapeId.TOWER, "tower");
         put(ShapeId.HOUSE, "house");
+        put(ShapeId.ROAD, "road");
         put(ShapeId.WATER, "water");
     }};
     private final JSpinner widthLandscape = new JSpinner();
@@ -158,7 +159,8 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
             case VK_3 -> ShapeId.FENCE;
             case VK_4 -> ShapeId.TOWER;
             case VK_5 -> ShapeId.HOUSE;
-            case VK_6 -> ShapeId.WATER;
+            case VK_6 -> ShapeId.ROAD;
+            case VK_7 -> ShapeId.WATER;
             default -> null;
         });
 
