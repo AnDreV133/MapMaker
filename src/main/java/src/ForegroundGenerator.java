@@ -132,4 +132,10 @@ public class ForegroundGenerator {
 //            case TOWER ->return new (sizeCell);
         }
     }
+
+
+
+    public void addVillage(Point begin, Point end, ArrayList<ArrayList<Float>> B){
+        // todo место для реализации наполеонских затей
+    }
 }

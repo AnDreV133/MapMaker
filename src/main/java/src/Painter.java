@@ -245,7 +245,7 @@ public class Painter {
                                                    Shape leftShape, Shape rightShape,
                                                    Shape upShape, Shape downShape) {
         boolean isSubShapeAdd = false;
-//        drawShape(x, y, middleShape);
+        drawShape(x, y, middleShape);
         if (foregroundGenerator.getMatrix().get(y).get(x - 1) == neighborShapeId) {
             drawShape(x, y, leftShape);
             isSubShapeAdd = true;

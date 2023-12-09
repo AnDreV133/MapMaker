@@ -2,6 +2,7 @@ package src;
 
 public enum ShapeId {
     EMPTY,
+    EMPTY_BLOCK,
     CELL,
     STONE,
     BLOCK,

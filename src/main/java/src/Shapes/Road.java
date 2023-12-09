@@ -9,7 +9,7 @@ public class Road extends Shape {
 
     @Override
     public void draw() {
-        g.setColor(new Color(255, 228, 195));
+        g.setColor(new Color(255, 228, 195, 163));
         g.fillRect(0, 0, getSideSize(), getSideSize());
     }
 }

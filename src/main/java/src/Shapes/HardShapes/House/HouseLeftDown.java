@@ -9,7 +9,6 @@ public class HouseLeftDown extends Shape {
 
     @Override
     public void draw() {
-        g = new HouseLeftUp(SIDE_SIZE).getGraphic();
-        g.rotate(3.1415 / 2);
+        rotateShape(new HouseLeftUp(SIDE_SIZE), 270);
     }
 }
