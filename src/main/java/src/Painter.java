@@ -26,8 +26,8 @@ public class Painter {
         this.heightInCell = heightInCell;
         this.sizeCell = sizeCell;
         currentShapeId = ShapeId.CELL;
-        backgroundGenerator = new BackgroundGenerator(heightInCell, widthInCell);
-        foregroundGenerator = new ForegroundGenerator(heightInCell, widthInCell);
+        backgroundGenerator = new BackgroundGenerator(widthInCell, heightInCell);
+        foregroundGenerator = new ForegroundGenerator(widthInCell, heightInCell);
 
         image = new BufferedImage(
                 sizeCell * widthInCell,
@@ -257,4 +257,6 @@ public class Painter {
                 null
         );
     }
+
+
 }

@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="db21df1f-f0b6-4bc4-9e82-202f7a648608" name="Changes" comment="house painting fixed">
-      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+    <list default="true" id="db21df1f-f0b6-4bc4-9e82-202f7a648608" name="Changes" comment="update generators class">
+      <change afterPath="$PROJECT_DIR$/src/main/java/src/UndoRedo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/src/BackgroundGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/BackgroundGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/src/ForegroundGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/ForegroundGenerator.java" afterDir="false" />
@@ -28,7 +28,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="new_architecture" />
+        <entry key="$PROJECT_DIR$" value="CWF" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -142,7 +142,14 @@
       <option name="project" value="LOCAL" />
       <updated>1702145487983</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="add comfortable get n set for matrices">
+      <created>1702453642350</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1702453642350</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -156,7 +163,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="CWF" />
+                        <option value="undo_redo" />
                       </list>
                     </value>
                   </entry>
@@ -176,7 +183,9 @@
     <MESSAGE value="add new shapes, some fix" />
     <MESSAGE value="add painting of house but it is not correct" />
     <MESSAGE value="house painting fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="house painting fixed" />
+    <MESSAGE value="add comfortable get n set for matrices" />
+    <MESSAGE value="update generators class" />
+    <option name="LAST_COMMIT_MESSAGE" value="update generators class" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -185,6 +194,20 @@
           <properties class="java.lang.IndexOutOfBoundsException" package="java.lang" />
           <option name="timeStamp" value="5" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/src/Painter.java</url>
+          <line>115</line>
+          <properties class="src.Painter" method="redrawMapByArea">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/src/BackgroundGenerator.java</url>
+          <line>95</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

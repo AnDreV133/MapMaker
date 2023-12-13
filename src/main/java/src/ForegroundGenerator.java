@@ -5,17 +5,20 @@ import java.util.ArrayList;
 public class ForegroundGenerator {
     private ArrayList<ArrayList<ShapeId>> matrix;
 
-    private int heightInCell, widthInCell;
-
-    public ForegroundGenerator(int heightInCell, int widthInCell) {
-        this.heightInCell = heightInCell;
-        this.widthInCell = widthInCell;
-
-        initMatrix();
+    public ForegroundGenerator(int widthInCell, int heightInCell) {
+        initMatrix(widthInCell, heightInCell);
         makeEmptyMatrix();
     }
 
-    public void initMatrix() {
+    public int getHeight() {
+        return matrix.size();
+    }
+
+    public int getWidth() {
+        return matrix.get(0).size();
+    }
+
+    public void initMatrix(int widthInCell, int heightInCell) {
         matrix = new ArrayList<>();
 
         for (int y = 0; y < heightInCell; y++) {
@@ -30,29 +33,26 @@ public class ForegroundGenerator {
     public void makeEmptyMatrix() {
         addShapesByAreaWithFill(
                 new Point(1, 1),
-                new Point(widthInCell - 2, heightInCell - 2),
+                new Point(getWidth() - 2, getHeight() - 2),
                 ShapeId.EMPTY
         );
     }
 
     public void resizeMatrix(int newWidthInCell, int newHeightInCell) {
-        widthInCell = newWidthInCell;
-        heightInCell = newHeightInCell;
-
         matrix.clear();
-        initMatrix();
+        initMatrix(newWidthInCell, newHeightInCell);
         makeEmptyMatrix();
     }
 
     private void movePointToBound(Point point) {
         if (point.getX() < 0)
             point.setX(0);
-        if (point.getX() >= widthInCell)
-            point.setX(widthInCell - 1);
+        if (point.getX() >= getWidth())
+            point.setX(getWidth() - 1);
         if (point.getY() < 0)
             point.setY(0);
-        if (point.getY() >= heightInCell)
-            point.setY(heightInCell - 1);
+        if (point.getY() >= getHeight())
+            point.setY(getHeight() - 1);
     }
 
     private void correctingPoints(Point begin, Point end) {
@@ -139,26 +139,8 @@ public class ForegroundGenerator {
     }
 
     public ShapeId getVal(int x, int y, int shift) {
-        if (x < shift && x >= widthInCell - shift || y < shift && y >= heightInCell - shift) return ShapeId.EMPTY;
+        if (x < shift && x >= getWidth() - shift || y < shift && y >= getHeight() - shift) return ShapeId.EMPTY;
 
         return matrix.get(y).get(x);
-    }
-
-
-    public void addVillage(Point begin, Point end, ArrayList<ArrayList<Boolean>> matrixFreeCells) {
-        // todo место для реализации наполеонских затей
-
-        // https://habr.com/ru/articles/560266/
-        for (int ik = 0; ik < widthInCell; ik++) {     //назовем его "Основной цикл"
-            for (int jk = 0; jk < heightInCell; jk++) {
-                if (!(ik == 0 || ik == widthInCell - 1 || jk == 0 || jk == heightInCell - 1))
-                    continue;       // Временное условие для фильтрации элементов внесшего "кольца"
-                int i = ik + 1;     // Номера строк и столбцов приводим в удобный
-                int j = jk + 1;     // в математическом плане вид (от 1 до N)
-                //  ... здесь будем вставлять основной код вычислений
-            }
-        }
-
-
     }
 }

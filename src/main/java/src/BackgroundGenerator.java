@@ -4,13 +4,17 @@ import java.util.ArrayList;
 
 public class BackgroundGenerator {
     private ArrayList<ArrayList<Float>> matrix;
-    private int heightInCell, widthInCell;
+    public int getHeight() {
+        return matrix.size();
+    }
 
-    public BackgroundGenerator(int heightInCell, int widthInCell) {
-        this.heightInCell = heightInCell;
-        this.widthInCell = widthInCell;
+    public int getWidth() {
+        return matrix.get(0).size();
+    }
 
-        initMatrix();
+    public BackgroundGenerator(int widthInCell, int heightInCell) {
+
+        initMatrix(widthInCell, heightInCell);
         makeEmptyMatrix();
     }
 
@@ -18,26 +22,22 @@ public class BackgroundGenerator {
         return matrix;
     }
 
-    public int getHeightInCell() {
-        return heightInCell;
-    }
-
-    public int getWidthInCell() {
-        return widthInCell;
-    }
-
-    public void initMatrix() {
+    public void initMatrix(int widthInCell, int heightInCell) {
         matrix = new ArrayList<>();
 
         for (int y = 0; y < heightInCell; y++) {
-            matrix.add(new ArrayList<>(widthInCell));
+            ArrayList<Float> buf = new ArrayList<>();
+            for (int x = 0; x < widthInCell; x++) {
+                buf.add(0f);
+            }
+            matrix.add(buf);
         }
     }
 
     public void makeEmptyMatrix() {
-        for (int y = 0; y < heightInCell; y++) {
+        for (int y = 0; y < getHeight(); y++) {
             ArrayList<Float> buf = new ArrayList<>();
-            for (int x = 0; x < widthInCell; x++) {
+            for (int x = 0; x < getWidth(); x++) {
                 buf.add(1.0f);
             }
             matrix.set(y, buf);
@@ -45,18 +45,15 @@ public class BackgroundGenerator {
     }
 
     public void resizeMatrix(int newWidthInCell, int newHeightInCell) {
-        widthInCell = newWidthInCell;
-        heightInCell = newHeightInCell;
-
         matrix.clear();
-        initMatrix();
+        initMatrix(newWidthInCell, newHeightInCell);
         makeEmptyMatrix();
     }
 
     public void makeRandomMatrix() {
-        for (int y = 0; y < heightInCell; y++) {
+        for (int y = 0; y < getHeight(); y++) {
             ArrayList<Float> buf = new ArrayList<>();
-            for (int x = 0; x < widthInCell; x++) {
+            for (int x = 0; x < getWidth(); x++) {
                 buf.add((float) Math.random());
             }
             matrix.set(y, buf);
@@ -64,9 +61,9 @@ public class BackgroundGenerator {
     }
 
     public void interpolateMatrix() {
-        float[][] tempMap = new float[heightInCell][widthInCell];
-        for (int x = 1; x < widthInCell - 1; ++x)
-            for (int y = 1; y < heightInCell - 1; ++y) {
+        float[][] tempMap = new float[getHeight()][getWidth()];
+        for (int x = 1; x < getWidth() - 1; ++x)
+            for (int y = 1; y < getHeight() - 1; ++y) {
                 tempMap[y][x] = (matrix.get(y).get(x - 1)
                         + matrix.get(y - 1).get(x - 1) + matrix.get(y - 1).get(x)
                         + matrix.get(y - 1).get(x + 1) + matrix.get(y).get(x + 1)
@@ -74,9 +71,9 @@ public class BackgroundGenerator {
                         + matrix.get(y + 1).get(x - 1) + matrix.get(y).get(x)) / 9;
             }
 
-        for (int y = 0; y < heightInCell; y++) {
+        for (int y = 0; y < getHeight(); y++) {
             ArrayList<Float> buf = new ArrayList<>();
-            for (int x = 0; x < widthInCell; x++) {
+            for (int x = 0; x < getWidth(); x++) {
                 buf.add(tempMap[y][x]);
             }
             matrix.set(y, buf);
@@ -100,7 +97,7 @@ public class BackgroundGenerator {
     }
 
     public float getVal(int x, int y, int shift) {
-        if (x < shift && x >= widthInCell - shift || y < shift && y >= heightInCell - shift) return 1;
+        if (x < shift && x >= getWidth() - shift || y < shift && y >= getHeight() - shift) return 1;
 
         return matrix.get(y).get(x);
     }
