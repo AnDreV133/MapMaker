@@ -116,9 +116,9 @@ public class Painter {
     public void redrawMapByArea(Point begin, Point end) {
         for (int y = begin.getY(); y <= end.getY(); y++) {
             for (int x = begin.getX(); x <= end.getX(); x++) {
-                if (backgroundGenerator.getMatrix().get(y).get(x) > freq) {
+                if (backgroundGenerator.getVal(x, y) > freq) {
                     drawShape(x, y, new Cell(sizeCell));
-                    defineAndDrawShape(x, y, foregroundGenerator.getMatrix().get(y).get(x));
+                    defineAndDrawShape(x, y, foregroundGenerator.getVal(x, y));
                 } else {
                     drawShape(x, y, new Stone(sizeCell));
                 }
@@ -135,10 +135,10 @@ public class Painter {
     public void forceRedrawMapByArea(Point begin, Point end) {
         for (int y = begin.getY(); y <= end.getY(); y++) {
             for (int x = begin.getX(); x <= end.getX(); x++) {
-                backgroundGenerator.setValInMatrix(x, y, currentShapeId == ShapeId.STONE ? 0.0f : 1.0f);
+                backgroundGenerator.setVal(x, y, currentShapeId == ShapeId.STONE ? 0.0f : 1.0f);
 
                 drawShape(x, y, new Cell(sizeCell));
-                defineAndDrawShape(x, y, foregroundGenerator.getMatrix().get(y).get(x));
+                defineAndDrawShape(x, y, foregroundGenerator.getVal(y, x));
             }
         }
     }
@@ -151,7 +151,7 @@ public class Painter {
             case HOUSE -> drawShapeWithOrientation(x, y, ShapeId.HOUSE, new House(sizeCell));
 //            case ROAD -> drawRoad(x, y, shapeId.HOUSE, ,
 //                    );
-            default -> drawShape(x, y, defineShape(foregroundGenerator.getMatrix().get(y).get(x)));
+            default -> drawShape(x, y, defineShape(foregroundGenerator.getVal(y, x)));
         }
     }
 
@@ -169,42 +169,18 @@ public class Painter {
         };
     }
 
-    private void drawRoad(int x, int y, ShapeId neighborShapeId) {
-
-        drawShape(x, y, new Road(sizeCell));
-        if (foregroundGenerator.getMatrix().get(y).get(x - 1) == neighborShapeId) {
-            drawShape(x - 1, y, new HouseFill(sizeCell));
-            foregroundGenerator.getMatrix().get(y).set(x - 1, ShapeId.DOOR);
-        }
-        if (foregroundGenerator.getMatrix().get(y).get(x + 1) == neighborShapeId) {
-            drawShape(x + 1, y, new HouseFill(sizeCell));
-            foregroundGenerator.getMatrix().get(y).set(x + 1, ShapeId.DOOR);
-
-        }
-        if (foregroundGenerator.getMatrix().get(y - 1).get(x) == neighborShapeId) {
-            drawShape(x, y - 1, new HouseFill(sizeCell));
-            foregroundGenerator.getMatrix().get(y - 1).set(x, ShapeId.DOOR);
-
-        }
-        if (foregroundGenerator.getMatrix().get(y + 1).get(x) == neighborShapeId) {
-            drawShape(x, y + 1, new HouseFill(sizeCell));
-            foregroundGenerator.getMatrix().get(y + 1).set(x, ShapeId.DOOR);
-
-        }
-    }
-
     private void drawShapeWithOrientation(int x, int y, ShapeId shapeId, HardShape hardShape) {
         boolean isShapeOnLeft = false;
         boolean isShapeOnRight = false;
         boolean isShapeOnUp = false;
         boolean isShapeOnDown = false;
-        if (foregroundGenerator.getMatrix().get(y).get(x - 1) == shapeId)
+        if (foregroundGenerator.getVal(x - 1, y) == shapeId)
             isShapeOnLeft = true;
-        if (foregroundGenerator.getMatrix().get(y).get(x + 1) == shapeId)
+        if (foregroundGenerator.getVal(x + 1, y) == shapeId)
             isShapeOnRight = true;
-        if (foregroundGenerator.getMatrix().get(y - 1).get(x) == shapeId)
+        if (foregroundGenerator.getVal(x, y - 1) == shapeId)
             isShapeOnUp = true;
-        if (foregroundGenerator.getMatrix().get(y + 1).get(x) == shapeId)
+        if (foregroundGenerator.getVal(x, y + 1) == shapeId)
             isShapeOnDown = true;
 
         if (isShapeOnLeft && isShapeOnRight && isShapeOnUp && isShapeOnDown)
@@ -246,19 +222,19 @@ public class Painter {
                                                    Shape upShape, Shape downShape) {
         boolean isSubShapeAdd = false;
         drawShape(x, y, middleShape);
-        if (foregroundGenerator.getMatrix().get(y).get(x - 1) == neighborShapeId) {
+        if (foregroundGenerator.getVal(x - 1, y) == neighborShapeId) {
             drawShape(x, y, leftShape);
             isSubShapeAdd = true;
         }
-        if (foregroundGenerator.getMatrix().get(y).get(x + 1) == neighborShapeId) {
+        if (foregroundGenerator.getVal(x + 1, y) == neighborShapeId) {
             drawShape(x, y, rightShape);
             isSubShapeAdd = true;
         }
-        if (foregroundGenerator.getMatrix().get(y - 1).get(x) == neighborShapeId) {
+        if (foregroundGenerator.getVal(x, y - 1) == neighborShapeId) {
             drawShape(x, y, upShape);
             isSubShapeAdd = true;
         }
-        if (foregroundGenerator.getMatrix().get(y + 1).get(x) == neighborShapeId) {
+        if (foregroundGenerator.getVal(x, y + 1) == neighborShapeId) {
             drawShape(x, y, downShape);
             isSubShapeAdd = true;
         }
@@ -266,7 +242,7 @@ public class Painter {
     }
 
     private void drawShapeByBackgroundMatrix(int x, int y) {
-        if (backgroundGenerator.getMatrix().get(y).get(x) > freq) {
+        if (backgroundGenerator.getVal(x, y) > freq) {
             drawShape(x, y, new Cell(sizeCell));
         } else {
             drawShape(x, y, new Stone(sizeCell));

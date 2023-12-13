@@ -134,8 +134,31 @@ public class ForegroundGenerator {
     }
 
 
+    public ShapeId getVal(int x, int y) {
+        return getVal(x, y, 0);
+    }
 
-    public void addVillage(Point begin, Point end, ArrayList<ArrayList<Float>> B){
+    public ShapeId getVal(int x, int y, int shift) {
+        if (x < shift && x >= widthInCell - shift || y < shift && y >= heightInCell - shift) return ShapeId.EMPTY;
+
+        return matrix.get(y).get(x);
+    }
+
+
+    public void addVillage(Point begin, Point end, ArrayList<ArrayList<Boolean>> matrixFreeCells) {
         // todo место для реализации наполеонских затей
+
+        // https://habr.com/ru/articles/560266/
+        for (int ik = 0; ik < widthInCell; ik++) {     //назовем его "Основной цикл"
+            for (int jk = 0; jk < heightInCell; jk++) {
+                if (!(ik == 0 || ik == widthInCell - 1 || jk == 0 || jk == heightInCell - 1))
+                    continue;       // Временное условие для фильтрации элементов внесшего "кольца"
+                int i = ik + 1;     // Номера строк и столбцов приводим в удобный
+                int j = jk + 1;     // в математическом плане вид (от 1 до N)
+                //  ... здесь будем вставлять основной код вычислений
+            }
+        }
+
+
     }
 }

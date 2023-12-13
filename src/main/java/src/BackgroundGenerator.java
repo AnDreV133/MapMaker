@@ -68,10 +68,10 @@ public class BackgroundGenerator {
         for (int x = 1; x < widthInCell - 1; ++x)
             for (int y = 1; y < heightInCell - 1; ++y) {
                 tempMap[y][x] = (matrix.get(y).get(x - 1)
-                    + matrix.get(y - 1).get(x - 1) + matrix.get(y - 1).get(x)
-                    + matrix.get(y - 1).get(x + 1) + matrix.get(y).get(x + 1)
-                    + matrix.get(y + 1).get(x + 1) + matrix.get(y + 1).get(x)
-                    + matrix.get(y + 1).get(x - 1) + matrix.get(y).get(x)) / 9;
+                        + matrix.get(y - 1).get(x - 1) + matrix.get(y - 1).get(x)
+                        + matrix.get(y - 1).get(x + 1) + matrix.get(y).get(x + 1)
+                        + matrix.get(y + 1).get(x + 1) + matrix.get(y + 1).get(x)
+                        + matrix.get(y + 1).get(x - 1) + matrix.get(y).get(x)) / 9;
             }
 
         for (int y = 0; y < heightInCell; y++) {
@@ -83,7 +83,7 @@ public class BackgroundGenerator {
         }
     }
 
-    public void setValInMatrix(int x, int y, float val) {
+    public void setVal(int x, int y, float val) {
         matrix.get(y).set(x, val);
     }
 
@@ -93,5 +93,15 @@ public class BackgroundGenerator {
         } else {
             matrix.add(val);
         }
+    }
+
+    public float getVal(int x, int y) {
+        return getVal(x, y, 0);
+    }
+
+    public float getVal(int x, int y, int shift) {
+        if (x < shift && x >= widthInCell - shift || y < shift && y >= heightInCell - shift) return 1;
+
+        return matrix.get(y).get(x);
     }
 }
