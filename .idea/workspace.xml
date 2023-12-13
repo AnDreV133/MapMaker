@@ -5,12 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="db21df1f-f0b6-4bc4-9e82-202f7a648608" name="Changes" comment="update generators class">
-      <change afterPath="$PROJECT_DIR$/src/main/java/src/UndoRedo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/src/PairGrounds.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/src/BackgroundGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/BackgroundGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/src/ForegroundGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/ForegroundGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Painter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Painter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/src/UndoRedo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/UndoRedo.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,7 +148,14 @@
       <option name="project" value="LOCAL" />
       <updated>1702453642350</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="update generators class">
+      <created>1702458613440</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1702458613440</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -194,19 +200,20 @@
           <properties class="java.lang.IndexOutOfBoundsException" package="java.lang" />
           <option name="timeStamp" value="5" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/src/Painter.java</url>
-          <line>115</line>
-          <properties class="src.Painter" method="redrawMapByArea">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="11" />
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/src/BackgroundGenerator.java</url>
+          <line>96</line>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/src/BackgroundGenerator.java</url>
-          <line>95</line>
-          <option name="timeStamp" value="12" />
+          <line>23</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/src/BackgroundGenerator.java</url>
+          <line>35</line>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

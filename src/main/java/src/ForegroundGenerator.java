@@ -7,7 +7,6 @@ public class ForegroundGenerator {
 
     public ForegroundGenerator(int widthInCell, int heightInCell) {
         initMatrix(widthInCell, heightInCell);
-        makeEmptyMatrix();
     }
 
     public int getHeight() {
@@ -41,7 +40,6 @@ public class ForegroundGenerator {
     public void resizeMatrix(int newWidthInCell, int newHeightInCell) {
         matrix.clear();
         initMatrix(newWidthInCell, newHeightInCell);
-        makeEmptyMatrix();
     }
 
     private void movePointToBound(Point point) {

@@ -13,9 +13,7 @@ public class BackgroundGenerator {
     }
 
     public BackgroundGenerator(int widthInCell, int heightInCell) {
-
         initMatrix(widthInCell, heightInCell);
-        makeEmptyMatrix();
     }
 
     public ArrayList<ArrayList<Float>> getMatrix() {
@@ -28,7 +26,7 @@ public class BackgroundGenerator {
         for (int y = 0; y < heightInCell; y++) {
             ArrayList<Float> buf = new ArrayList<>();
             for (int x = 0; x < widthInCell; x++) {
-                buf.add(0f);
+                buf.add(1f);
             }
             matrix.add(buf);
         }
@@ -38,7 +36,7 @@ public class BackgroundGenerator {
         for (int y = 0; y < getHeight(); y++) {
             ArrayList<Float> buf = new ArrayList<>();
             for (int x = 0; x < getWidth(); x++) {
-                buf.add(1.0f);
+                buf.add(1f);
             }
             matrix.set(y, buf);
         }
@@ -47,7 +45,6 @@ public class BackgroundGenerator {
     public void resizeMatrix(int newWidthInCell, int newHeightInCell) {
         matrix.clear();
         initMatrix(newWidthInCell, newHeightInCell);
-        makeEmptyMatrix();
     }
 
     public void makeRandomMatrix() {
