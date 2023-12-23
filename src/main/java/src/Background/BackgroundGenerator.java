@@ -1,24 +1,14 @@
-package src;
+package src.Background;
 
 import java.util.ArrayList;
 
-public class BackgroundGenerator {
-    private ArrayList<ArrayList<Float>> matrix;
-    public int getHeight() {
-        return matrix.size();
-    }
-
-    public int getWidth() {
-        return matrix.get(0).size();
-    }
+public class BackgroundGenerator extends Background {
 
     public BackgroundGenerator(int widthInCell, int heightInCell) {
+        freq = 0.5f;
         initMatrix(widthInCell, heightInCell);
     }
 
-    public ArrayList<ArrayList<Float>> getMatrix() {
-        return matrix;
-    }
 
     public void initMatrix(int widthInCell, int heightInCell) {
         matrix = new ArrayList<>();
@@ -94,7 +84,7 @@ public class BackgroundGenerator {
     }
 
     public float getVal(int x, int y, int shift) {
-        if (x < shift && x >= getWidth() - shift || y < shift && y >= getHeight() - shift) return 1;
+        if (x < shift || x >= getWidth() - shift || y < shift || y >= getHeight() - shift) return 1;
 
         return matrix.get(y).get(x);
     }

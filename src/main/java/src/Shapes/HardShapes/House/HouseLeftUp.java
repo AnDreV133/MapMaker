@@ -2,8 +2,6 @@ package src.Shapes.HardShapes.House;
 
 import src.Shapes.Shape;
 
-import java.awt.*;
-
 public class HouseLeftUp extends Shape {
     public HouseLeftUp(int sideSize) {
         super(sideSize);

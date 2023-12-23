@@ -1,5 +1,7 @@
 package src;
 
+import src.Background.BackgroundGenerator;
+import src.Foreground.ForegroundGenerator;
 import src.Shapes.*;
 import src.Shapes.HardShapes.Fence.*;
 import src.Shapes.HardShapes.HardShape;
@@ -15,10 +17,10 @@ public class Painter {
     private final BackgroundGenerator backgroundGenerator;
     private final ForegroundGenerator foregroundGenerator;
     private final int sizeCell;
+    private final UndoRedo undoRedo;
     private Graphics2D graphics;
     private BufferedImage image;
     private int heightInCell, widthInCell;
-    private float freq = 0.5f;
     private ShapeId currentShapeId;
 
     public Painter(int widthInCell, int heightInCell, int sizeCell) {
@@ -28,15 +30,20 @@ public class Painter {
         currentShapeId = ShapeId.CELL;
         backgroundGenerator = new BackgroundGenerator(widthInCell, heightInCell);
         foregroundGenerator = new ForegroundGenerator(widthInCell, heightInCell);
+        undoRedo = new UndoRedo(backgroundGenerator, foregroundGenerator);
 
+        updateBufferOfImage();
+
+        makeEmptyMap();
+    }
+
+    private void updateBufferOfImage() {
         image = new BufferedImage(
                 sizeCell * widthInCell,
                 sizeCell * heightInCell,
                 BufferedImage.TYPE_INT_ARGB
         );
         graphics = image.createGraphics();
-
-        makeEmptyMap();
     }
 
     public BufferedImage getImage() {
@@ -47,21 +54,20 @@ public class Painter {
         widthInCell = newWidthInCell;
         heightInCell = newHeightInCell;
 
-        image = new BufferedImage(
-                sizeCell * newWidthInCell,
-                sizeCell * newHeightInCell,
-                BufferedImage.TYPE_INT_ARGB
-        );
-        graphics = image.createGraphics();
+        updateBufferOfImage();
 
         backgroundGenerator.resizeMatrix(newWidthInCell, newHeightInCell);
         foregroundGenerator.resizeMatrix(newWidthInCell, newHeightInCell);
 
-        redrawBackgroundAndClearForeground();
+        undoRedo.add(backgroundGenerator, foregroundGenerator);
+
+        redrawBackground();
     }
 
     public void makeRandomMap() {
         backgroundGenerator.makeRandomMatrix();
+
+        undoRedo.add(backgroundGenerator);
 
         redrawMap();
     }
@@ -69,18 +75,21 @@ public class Painter {
     public void interpolateMap() {
         backgroundGenerator.interpolateMatrix();
 
+        undoRedo.add(backgroundGenerator);
+
         redrawMap();
     }
-
 
     public void makeEmptyMap() {
         backgroundGenerator.makeEmptyMatrix();
         foregroundGenerator.makeEmptyMatrix();
 
-        redrawBackgroundAndClearForeground();
+        undoRedo.add(backgroundGenerator, foregroundGenerator);
+
+        redrawBackground();
     }
 
-    public void redrawBackgroundAndClearForeground() {
+    public void redrawBackground() { // todo возможно убрать
         for (int y = 0; y < heightInCell; y++) {
             for (int x = 0; x < widthInCell; x++) {
                 drawShapeByBackgroundMatrix(x, y);
@@ -89,7 +98,9 @@ public class Painter {
     }
 
     public void setFreq(float freq) {
-        this.freq = freq;
+        backgroundGenerator.setFreq(freq);
+
+        undoRedo.add(backgroundGenerator);
 
         redrawMap();
     }
@@ -105,9 +116,16 @@ public class Painter {
         );
     }
 
-
     public void drawShapes(Point begin, Point end) {
-        foregroundGenerator.analyzeByIdAndAddShapes(begin, end, currentShapeId);
+        foregroundGenerator.addShapes(begin, end, currentShapeId);
+        if (currentShapeId == ShapeId.CELL) {
+            for (int y = begin.getY(); y <= end.getY(); y++)
+                for (int x = begin.getX(); x <= end.getX(); x++)
+                    backgroundGenerator.setVal(x, y, (float) (backgroundGenerator.getFreq() + (1 - backgroundGenerator.getFreq()) * Math.random()));
+
+            undoRedo.add(backgroundGenerator, foregroundGenerator);
+        } else
+            undoRedo.add(foregroundGenerator);
 
         redrawMapByArea(begin, end);
     }
@@ -116,9 +134,9 @@ public class Painter {
     public void redrawMapByArea(Point begin, Point end) {
         for (int y = begin.getY(); y <= end.getY(); y++) {
             for (int x = begin.getX(); x <= end.getX(); x++) {
-                if (backgroundGenerator.getVal(x, y) > freq) {
+                if (backgroundGenerator.getVal(x, y) > backgroundGenerator.getFreq()) {
                     drawShape(x, y, new Cell(sizeCell));
-                    defineAndDrawShape(x, y, foregroundGenerator.getVal(x, y));
+                    drawShapeWithDefine(x, y, foregroundGenerator.getVal(x, y));
                 } else {
                     drawShape(x, y, new Stone(sizeCell));
                 }
@@ -127,31 +145,58 @@ public class Painter {
     }
 
     public void forceDrawShapes(Point begin, Point end) {
-        foregroundGenerator.analyzeByIdAndAddShapes(begin, end, currentShapeId);
-
-        forceRedrawMapByArea(begin, end);
-    }
-
-    public void forceRedrawMapByArea(Point begin, Point end) {
-        for (int y = begin.getY(); y <= end.getY(); y++) {
-            for (int x = begin.getX(); x <= end.getX(); x++) {
+        for (int y = begin.getY(); y <= end.getY(); y++)
+            for (int x = begin.getX(); x <= end.getX(); x++)
                 backgroundGenerator.setVal(x, y, currentShapeId == ShapeId.STONE ? 0.0f : 1.0f);
 
-                drawShape(x, y, new Cell(sizeCell));
-                defineAndDrawShape(x, y, foregroundGenerator.getVal(y, x));
-            }
-        }
+        foregroundGenerator.addShapes(begin, end, currentShapeId);
+
+        undoRedo.add(backgroundGenerator, foregroundGenerator);
+
+        redrawMapByArea(begin, end);
     }
 
-    private void defineAndDrawShape(int x, int y, ShapeId shapeId) {
+    public void undo(){
+        var pairGrounds = undoRedo.undo();
+
+        if (widthInCell != pairGrounds.background().getWidth()
+                || heightInCell != pairGrounds.background().getHeight()) {
+            widthInCell = pairGrounds.background().getWidth();
+            heightInCell = pairGrounds.background().getHeight();
+
+            updateBufferOfImage();
+        }
+
+        backgroundGenerator.setBackground(pairGrounds.background());
+        foregroundGenerator.setForeground(pairGrounds.foreground());
+
+        redrawMap();
+    }
+
+    public void redo(){
+        var pairGrounds = undoRedo.redo();
+
+        if (widthInCell != pairGrounds.background().getWidth()
+                || heightInCell != pairGrounds.background().getHeight()) {
+            widthInCell = pairGrounds.background().getWidth();
+            heightInCell = pairGrounds.background().getHeight();
+
+            updateBufferOfImage();
+        }
+
+        backgroundGenerator.setBackground(pairGrounds.background());
+        foregroundGenerator.setForeground(pairGrounds.foreground());
+
+        redrawMap();
+    }
+
+    private void drawShapeWithDefine(int x, int y, ShapeId shapeId) {
         switch (shapeId) {
             case FENCE -> drawShapeWithOrientationModify(x, y, ShapeId.FENCE, new FenceCentral(sizeCell),
                     new FenceLeft(sizeCell), new FenceRight(sizeCell),
                     new FenceUp(sizeCell), new FenceDown(sizeCell));
             case HOUSE -> drawShapeWithOrientation(x, y, ShapeId.HOUSE, new House(sizeCell));
-//            case ROAD -> drawRoad(x, y, shapeId.HOUSE, ,
-//                    );
-            default -> drawShape(x, y, defineShape(foregroundGenerator.getVal(y, x)));
+            default -> drawShape(x, y, defineShape(foregroundGenerator.getVal(x, y)));
         }
     }
 
@@ -242,7 +287,7 @@ public class Painter {
     }
 
     private void drawShapeByBackgroundMatrix(int x, int y) {
-        if (backgroundGenerator.getVal(x, y) > freq) {
+        if (backgroundGenerator.getVal(x, y) > backgroundGenerator.getFreq()) {
             drawShape(x, y, new Cell(sizeCell));
         } else {
             drawShape(x, y, new Stone(sizeCell));

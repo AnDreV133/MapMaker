@@ -15,8 +15,6 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
     private static final int SIZE_CELL = 12;
     private static final int WIDTH_WINDOW = 900;
     private static final int HEIGHT_WINDOW = 600;
-    public static boolean isAltPressed;
-    public static boolean isCtrlPressed;
     private final Point imagePlace = new Point();
     private final Point mousePlace = new Point();
     private final Painter painter = new Painter(DEFAULT_SIZE_MAP, DEFAULT_SIZE_MAP, SIZE_CELL);
@@ -34,13 +32,18 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
     private final JSpinner heightLandscape = new JSpinner();
     private final JSlider blockFreq = new JSlider(200, 800, 500);
     private final JLabel shapeName = new JLabel();
+    public boolean isAltPressed;
+    public boolean isCtrlPressed;
+    public boolean isShiftPressed;
+    private boolean isUndoPressed;
+    private boolean isRedoPressed;
     private double scale = 1.0;
     private final JPanel imagePanel = new JPanel() {
         @Override
-        public void paintComponent(Graphics g) { // переопределяем метод отрисовки компонента
+        public void paintComponent(Graphics g) {
             super.paintComponent(g);
-            Graphics2D g2d = (Graphics2D) g; // используем 2D графику
-            g2d.scale(scale, scale); // масштабируем изображение
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.scale(scale, scale);
             g2d.drawImage(
                     painter.getImage(),
                     (int) (imagePlace.getX() / scale),
@@ -87,6 +90,12 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
 
     public ShapeId getCurrentShapeId() {
         return currentShapeId;
+    }
+
+    public void setCurrentShapeId(ShapeId currentShapeId) {
+        if (currentShapeId == null) return;
+
+        this.currentShapeId = currentShapeId;
     }
 
     public void initSettingsPanel() {
@@ -144,12 +153,6 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
         settingsPanel.add(shapeName);
     }
 
-    public void setCurrentShapeId(ShapeId currentShapeId) {
-        if (currentShapeId == null) return;
-
-        this.currentShapeId = currentShapeId;
-    }
-
     @Override
     public void keyTyped(KeyEvent e) {
         setCurrentShapeId(switch (e.getKeyChar()) {
@@ -169,17 +172,31 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.isAltDown()) {
-            isAltPressed = true;
-        } else if (e.isControlDown()) {
-            isCtrlPressed = true;
-        }
+        if (e.isAltDown()) isAltPressed = true;
+        if (e.isControlDown()) isCtrlPressed = true;
+        if (e.isShiftDown()) isShiftPressed = true;
+
+        if (e.getKeyCode() == VK_Z)
+            if (isCtrlPressed && isShiftPressed)
+                isUndoPressed = true;
+            else if (isCtrlPressed)
+                isRedoPressed = true;
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        if (isUndoPressed)
+            painter.undo();
+        else if (isRedoPressed)
+            painter.redo();
+
+        imagePanel.repaint();
+
         isAltPressed = false;
         isCtrlPressed = false;
+        isShiftPressed = false;
+        isUndoPressed = false;
+        isRedoPressed = false;
     }
 
     @Override
@@ -203,8 +220,6 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
     public void mouseReleased(MouseEvent e) {
         if (isAltPressed && isCtrlPressed) {
             painter.setCurrentShapeId(currentShapeId);
-            System.out.println(translateMouseCordToIndexOfMatrix(mousePlace).getX() + " " + translateMouseCordToIndexOfMatrix(mousePlace).getY() + " - " +
-                    translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY())).getX() + " " + translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY())).getY());
             painter.forceDrawShapes(
                     translateMouseCordToIndexOfMatrix(mousePlace),
                     translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY()))
@@ -213,8 +228,6 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
 
         if (isAltPressed && !isCtrlPressed) {
             painter.setCurrentShapeId(currentShapeId);
-            System.out.println(translateMouseCordToIndexOfMatrix(mousePlace).getX() + " " + translateMouseCordToIndexOfMatrix(mousePlace).getY() + " - " +
-                    translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY())).getX() + " " + translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY())).getY());
             painter.drawShapes(
                     translateMouseCordToIndexOfMatrix(mousePlace),
                     translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY()))

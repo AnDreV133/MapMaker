@@ -1,21 +1,16 @@
-package src;
+package src.Foreground;
+
+import src.Point;
+import src.ShapeId;
 
 import java.util.ArrayList;
 
-public class ForegroundGenerator {
-    private ArrayList<ArrayList<ShapeId>> matrix;
-
+public class ForegroundGenerator extends Foreground {
     public ForegroundGenerator(int widthInCell, int heightInCell) {
         initMatrix(widthInCell, heightInCell);
     }
 
-    public int getHeight() {
-        return matrix.size();
-    }
 
-    public int getWidth() {
-        return matrix.get(0).size();
-    }
 
     public void initMatrix(int widthInCell, int heightInCell) {
         matrix = new ArrayList<>();
@@ -23,7 +18,7 @@ public class ForegroundGenerator {
         for (int y = 0; y < heightInCell; y++) {
             ArrayList<ShapeId> buf = new ArrayList<>();
             for (int x = 0; x < widthInCell; x++) {
-                buf.add(ShapeId.EMPTY);
+                buf.add(ShapeId.CELL);
             }
             matrix.add(buf);
         }
@@ -33,7 +28,7 @@ public class ForegroundGenerator {
         addShapesByAreaWithFill(
                 new Point(1, 1),
                 new Point(getWidth() - 2, getHeight() - 2),
-                ShapeId.EMPTY
+                ShapeId.CELL
         );
     }
 
@@ -121,7 +116,7 @@ public class ForegroundGenerator {
         return matrix;
     }
 
-    public void analyzeByIdAndAddShapes(Point begin, Point end, ShapeId shapeId) {
+    public void addShapes(Point begin, Point end, ShapeId shapeId) {
         switch (shapeId) {
             case CELL, BLOCK, STONE, HOUSE, ROAD -> addShapesByAreaWithFill(begin, end, shapeId);
             case FENCE -> addShapesAtEdge(begin, end, shapeId);
@@ -137,7 +132,7 @@ public class ForegroundGenerator {
     }
 
     public ShapeId getVal(int x, int y, int shift) {
-        if (x < shift && x >= getWidth() - shift || y < shift && y >= getHeight() - shift) return ShapeId.EMPTY;
+        if (x < shift || x >= getWidth() - shift || y < shift || y >= getHeight() - shift) return ShapeId.CELL;
 
         return matrix.get(y).get(x);
     }

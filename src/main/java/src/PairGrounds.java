@@ -1,6 +1,7 @@
 package src;
 
-import java.util.ArrayList;
+import src.Background.Background;
+import src.Foreground.Foreground;
 
-public record PairGrounds(ArrayList<ArrayList<Float>> background, ArrayList<ArrayList<ShapeId>> foreground) {
+public record PairGrounds(Background background, Foreground foreground) {
 }
