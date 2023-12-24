@@ -3,8 +3,8 @@ package src.Shapes.HardShapes.Fence;
 
 import src.Shapes.Shape;
 
-public class FenceCentral extends Shape {
-    public FenceCentral(int sideSize) {
+public class FenceC extends Shape {
+    public FenceC(int sideSize) {
         super(sideSize);
     }
 

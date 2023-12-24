@@ -178,9 +178,9 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
 
         if (e.getKeyCode() == VK_Z)
             if (isCtrlPressed && isShiftPressed)
-                isUndoPressed = true;
-            else if (isCtrlPressed)
                 isRedoPressed = true;
+            else if (isCtrlPressed)
+                isUndoPressed = true;
     }
 
     @Override
@@ -220,7 +220,7 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
     public void mouseReleased(MouseEvent e) {
         if (isAltPressed && isCtrlPressed) {
             painter.setCurrentShapeId(currentShapeId);
-            painter.forceDrawShapes(
+            painter.drawShapesForce(
                     translateMouseCordToIndexOfMatrix(mousePlace),
                     translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY()))
             );

@@ -2,14 +2,15 @@ package src.Shapes.HardShapes.Fence;
 
 import src.Shapes.Shape;
 
-public class FenceRight extends Shape {
-    public FenceRight(int sideSize) {
+public class FenceRUD extends Shape {
+    public FenceRUD(int sideSize) {
         super(sideSize);
     }
 
     @Override
     public void draw() {
         g.setColor(FenceColor.getColor());
-        g.fillRect(SIDE_SIZE / 4 * 3, SIDE_SIZE / 3, SIDE_SIZE / 4, SIDE_SIZE / 3);
+        addShape(new FenceUD(SIDE_SIZE));
+        addShape(new FenceR(SIDE_SIZE));
     }
 }

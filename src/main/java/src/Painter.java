@@ -61,7 +61,7 @@ public class Painter {
 
         undoRedo.add(backgroundGenerator, foregroundGenerator);
 
-        redrawBackground();
+        redrawMap();
     }
 
     public void makeRandomMap() {
@@ -86,15 +86,7 @@ public class Painter {
 
         undoRedo.add(backgroundGenerator, foregroundGenerator);
 
-        redrawBackground();
-    }
-
-    public void redrawBackground() { // todo возможно убрать
-        for (int y = 0; y < heightInCell; y++) {
-            for (int x = 0; x < widthInCell; x++) {
-                drawShapeByBackgroundMatrix(x, y);
-            }
-        }
+        redrawMap();
     }
 
     public void setFreq(float freq) {
@@ -117,34 +109,17 @@ public class Painter {
     }
 
     public void drawShapes(Point begin, Point end) {
+        correctingPoints(begin, end);
         foregroundGenerator.addShapes(begin, end, currentShapeId);
-        if (currentShapeId == ShapeId.CELL) {
-            for (int y = begin.getY(); y <= end.getY(); y++)
-                for (int x = begin.getX(); x <= end.getX(); x++)
-                    backgroundGenerator.setVal(x, y, (float) (backgroundGenerator.getFreq() + (1 - backgroundGenerator.getFreq()) * Math.random()));
 
-            undoRedo.add(backgroundGenerator, foregroundGenerator);
-        } else
-            undoRedo.add(foregroundGenerator);
+        undoRedo.add(foregroundGenerator);
 
         redrawMapByArea(begin, end);
     }
 
+    public void drawShapesForce(Point begin, Point end) {
+        correctingPoints(begin, end);
 
-    public void redrawMapByArea(Point begin, Point end) {
-        for (int y = begin.getY(); y <= end.getY(); y++) {
-            for (int x = begin.getX(); x <= end.getX(); x++) {
-                if (backgroundGenerator.getVal(x, y) > backgroundGenerator.getFreq()) {
-                    drawShape(x, y, new Cell(sizeCell));
-                    drawShapeWithDefine(x, y, foregroundGenerator.getVal(x, y));
-                } else {
-                    drawShape(x, y, new Stone(sizeCell));
-                }
-            }
-        }
-    }
-
-    public void forceDrawShapes(Point begin, Point end) {
         for (int y = begin.getY(); y <= end.getY(); y++)
             for (int x = begin.getX(); x <= end.getX(); x++)
                 backgroundGenerator.setVal(x, y, currentShapeId == ShapeId.STONE ? 0.0f : 1.0f);
@@ -156,7 +131,20 @@ public class Painter {
         redrawMapByArea(begin, end);
     }
 
-    public void undo(){
+    public void redrawMapByArea(Point begin, Point end) {
+        for (int y = begin.getY(); y <= end.getY(); y++) {
+            for (int x = begin.getX(); x <= end.getX(); x++) {
+                if (backgroundGenerator.getVal(x, y) > backgroundGenerator.getFreq()) {
+                    drawShape(x, y, new Cell(sizeCell));
+                    drawShapeWithDefine(x, y);
+                } else {
+                    drawShape(x, y, new Stone(sizeCell));
+                }
+            }
+        }
+    }
+
+    public void undo() {
         var pairGrounds = undoRedo.undo();
 
         if (widthInCell != pairGrounds.background().getWidth()
@@ -173,7 +161,7 @@ public class Painter {
         redrawMap();
     }
 
-    public void redo(){
+    public void redo() {
         var pairGrounds = undoRedo.redo();
 
         if (widthInCell != pairGrounds.background().getWidth()
@@ -190,13 +178,72 @@ public class Painter {
         redrawMap();
     }
 
-    private void drawShapeWithDefine(int x, int y, ShapeId shapeId) {
-        switch (shapeId) {
-            case FENCE -> drawShapeWithOrientationModify(x, y, ShapeId.FENCE, new FenceCentral(sizeCell),
-                    new FenceLeft(sizeCell), new FenceRight(sizeCell),
-                    new FenceUp(sizeCell), new FenceDown(sizeCell));
-            case HOUSE -> drawShapeWithOrientation(x, y, ShapeId.HOUSE, new House(sizeCell));
+    private void drawShapeWithDefine(int x, int y) {
+        switch (foregroundGenerator.getVal(x, y)) {
+            case FENCE -> drawShapeByOrientation(x, y, ShapeId.FENCE, new Fence(sizeCell));
+            case HOUSE -> drawShapeByOrientation(x, y, ShapeId.HOUSE, new House(sizeCell));
             default -> drawShape(x, y, defineShape(foregroundGenerator.getVal(x, y)));
+        }
+    }
+
+
+    private void drawShapeByOrientation(int x, int y, ShapeId shapeId, HardShape hardShape) {
+        boolean isShapeOnLeft = false;
+        boolean isShapeOnRight = false;
+        boolean isShapeOnUp = false;
+        boolean isShapeOnDown = false;
+        if (foregroundGenerator.getVal(x - 1, y) == shapeId)
+            isShapeOnLeft = true;
+        if (foregroundGenerator.getVal(x + 1, y) == shapeId)
+            isShapeOnRight = true;
+        if (foregroundGenerator.getVal(x, y - 1) == shapeId)
+            isShapeOnUp = true;
+        if (foregroundGenerator.getVal(x, y + 1) == shapeId)
+            isShapeOnDown = true;
+
+        if (isShapeOnLeft && isShapeOnRight && isShapeOnUp && isShapeOnDown)
+            drawShape(x, y, hardShape.getShapeLRUD());
+        else if (isShapeOnLeft && isShapeOnRight && isShapeOnUp && !isShapeOnDown)
+            drawShape(x, y, hardShape.getShapeLRU());
+        else if (isShapeOnLeft && isShapeOnRight && !isShapeOnUp && isShapeOnDown)
+            drawShape(x, y, hardShape.getShapeLRD());
+        else if (isShapeOnLeft && !isShapeOnRight && isShapeOnUp && isShapeOnDown)
+            drawShape(x, y, hardShape.getShapeLUD());
+        else if (!isShapeOnLeft && isShapeOnRight && isShapeOnUp && isShapeOnDown)
+            drawShape(x, y, hardShape.getShapeRUD());
+        else if (isShapeOnLeft && isShapeOnRight && !isShapeOnUp && !isShapeOnDown)
+            drawShape(x, y, hardShape.getShapeLR());
+        else if (!isShapeOnLeft && !isShapeOnRight && isShapeOnUp && isShapeOnDown)
+            drawShape(x, y, hardShape.getShapeUD());
+        else if (isShapeOnLeft && !isShapeOnRight && isShapeOnUp && !isShapeOnDown)
+            drawShape(x, y, hardShape.getShapeLU());
+        else if (isShapeOnLeft && !isShapeOnRight && !isShapeOnUp && isShapeOnDown)
+            drawShape(x, y, hardShape.getShapeLD());
+        else if (!isShapeOnLeft && isShapeOnRight && isShapeOnUp && !isShapeOnDown)
+            drawShape(x, y, hardShape.getShapeRU());
+        else if (!isShapeOnLeft && isShapeOnRight && !isShapeOnUp && isShapeOnDown)
+            drawShape(x, y, hardShape.getShapeRD());
+        else if (!isShapeOnLeft && !isShapeOnRight && !isShapeOnUp && isShapeOnDown)
+            drawShape(x, y, hardShape.getShapeD());
+        else if (!isShapeOnLeft && !isShapeOnRight && isShapeOnUp && !isShapeOnDown)
+            drawShape(x, y, hardShape.getShapeU());
+        else if (!isShapeOnLeft && isShapeOnRight && !isShapeOnUp && !isShapeOnDown)
+            drawShape(x, y, hardShape.getShapeR());
+        else if (isShapeOnLeft && !isShapeOnRight && !isShapeOnUp && !isShapeOnDown)
+            drawShape(x, y, hardShape.getShapeL());
+        else
+            drawShape(x, y, hardShape.getShapeC());
+    }
+
+    private void drawShape(int x, int y, Shape shape) {
+        try {
+            graphics.drawImage(
+                    shape.getImage(),
+                    x * sizeCell,
+                    y * sizeCell,
+                    null
+            );
+        } catch (Exception ignored) {
         }
     }
 
@@ -214,94 +261,48 @@ public class Painter {
         };
     }
 
-    private void drawShapeWithOrientation(int x, int y, ShapeId shapeId, HardShape hardShape) {
-        boolean isShapeOnLeft = false;
-        boolean isShapeOnRight = false;
-        boolean isShapeOnUp = false;
-        boolean isShapeOnDown = false;
-        if (foregroundGenerator.getVal(x - 1, y) == shapeId)
-            isShapeOnLeft = true;
-        if (foregroundGenerator.getVal(x + 1, y) == shapeId)
-            isShapeOnRight = true;
-        if (foregroundGenerator.getVal(x, y - 1) == shapeId)
-            isShapeOnUp = true;
-        if (foregroundGenerator.getVal(x, y + 1) == shapeId)
-            isShapeOnDown = true;
+    private void correctingPoints(Point begin, Point end) {
+        movePointToBound(begin);
+        movePointToBound(end);
 
-        if (isShapeOnLeft && isShapeOnRight && isShapeOnUp && isShapeOnDown)
-            drawShape(x, y, hardShape.getShapeFill());
-        else if (isShapeOnLeft && isShapeOnRight && isShapeOnUp && !isShapeOnDown)
-            drawShape(x, y, hardShape.getShapeD());
-        else if (isShapeOnLeft && isShapeOnRight && !isShapeOnUp && isShapeOnDown)
-            drawShape(x, y, hardShape.getShapeU());
-        else if (isShapeOnLeft && !isShapeOnRight && isShapeOnUp && isShapeOnDown)
-            drawShape(x, y, hardShape.getShapeR());
-        else if (!isShapeOnLeft && isShapeOnRight && isShapeOnUp && isShapeOnDown)
-            drawShape(x, y, hardShape.getShapeL());
-        else if (isShapeOnLeft && isShapeOnRight && !isShapeOnUp && !isShapeOnDown)
-            drawShape(x, y, hardShape.getShapeH());
-        else if (!isShapeOnLeft && !isShapeOnRight && isShapeOnUp && isShapeOnDown)
-            drawShape(x, y, hardShape.getShapeV());
-        else if (isShapeOnLeft && !isShapeOnRight && isShapeOnUp && !isShapeOnDown)
-            drawShape(x, y, hardShape.getShapeRD());
-        else if (isShapeOnLeft && !isShapeOnRight && !isShapeOnUp && isShapeOnDown)
-            drawShape(x, y, hardShape.getShapeRU());
-        else if (!isShapeOnLeft && isShapeOnRight && isShapeOnUp && !isShapeOnDown)
-            drawShape(x, y, hardShape.getShapeLD());
-        else if (!isShapeOnLeft && isShapeOnRight && !isShapeOnUp && isShapeOnDown)
-            drawShape(x, y, hardShape.getShapeLU());
-        else if (!isShapeOnLeft && !isShapeOnRight && !isShapeOnUp && isShapeOnDown)
-            drawShape(x, y, hardShape.getShapeOnlyD());
-        else if (!isShapeOnLeft && !isShapeOnRight && isShapeOnUp && !isShapeOnDown)
-            drawShape(x, y, hardShape.getShapeOnlyU());
-        else if (!isShapeOnLeft && isShapeOnRight && !isShapeOnUp && !isShapeOnDown)
-            drawShape(x, y, hardShape.getShapeOnlyR());
-        else if (isShapeOnLeft && !isShapeOnRight && !isShapeOnUp && !isShapeOnDown)
-            drawShape(x, y, hardShape.getShapeOnlyL());
-        else
-            drawShape(x, y, hardShape.getShapeOnlyC());
-    }
+        if (begin.equals(end) || begin.lessThan(end)) {
+            return;
+        }
 
-    private boolean drawShapeWithOrientationModify(int x, int y, ShapeId neighborShapeId, Shape middleShape,
-                                                   Shape leftShape, Shape rightShape,
-                                                   Shape upShape, Shape downShape) {
-        boolean isSubShapeAdd = false;
-        drawShape(x, y, middleShape);
-        if (foregroundGenerator.getVal(x - 1, y) == neighborShapeId) {
-            drawShape(x, y, leftShape);
-            isSubShapeAdd = true;
-        }
-        if (foregroundGenerator.getVal(x + 1, y) == neighborShapeId) {
-            drawShape(x, y, rightShape);
-            isSubShapeAdd = true;
-        }
-        if (foregroundGenerator.getVal(x, y - 1) == neighborShapeId) {
-            drawShape(x, y, upShape);
-            isSubShapeAdd = true;
-        }
-        if (foregroundGenerator.getVal(x, y + 1) == neighborShapeId) {
-            drawShape(x, y, downShape);
-            isSubShapeAdd = true;
-        }
-        return isSubShapeAdd;
-    }
+        // e . .
+        // . . .
+        // . . b
+        if (begin.biggerOrEqualThan(end)) {
+            Point temp = new Point(begin.getX(), begin.getY());
+            begin.setXY(end.getX(), end.getY());
+            end.setXY(temp.getX(), temp.getY());
 
-    private void drawShapeByBackgroundMatrix(int x, int y) {
-        if (backgroundGenerator.getVal(x, y) > backgroundGenerator.getFreq()) {
-            drawShape(x, y, new Cell(sizeCell));
-        } else {
-            drawShape(x, y, new Stone(sizeCell));
+            // . . b
+            // . . .
+            // e . .
+        } else if (begin.xBiggerThan(end) && begin.yLessThan(end)) {
+            int temp = begin.getX();
+            begin.setX(end.getX());
+            end.setX(temp);
+
+            // . . e
+            // . . .
+            // b . .
+        } else if (begin.xLessThan(end) && begin.yBiggerThan(end)) {
+            int temp = begin.getY();
+            begin.setY(end.getY());
+            end.setY(temp);
         }
     }
 
-    private void drawShape(int x, int y, Shape shape) {
-        graphics.drawImage(
-                shape.getImage(),
-                x * sizeCell,
-                y * sizeCell,
-                null
-        );
+    private void movePointToBound(Point point) {
+        if (point.getX() < 0)
+            point.setX(0);
+        if (point.getX() >= foregroundGenerator.getWidth())
+            point.setX(foregroundGenerator.getWidth() - 1);
+        if (point.getY() < 0)
+            point.setY(0);
+        if (point.getY() >= foregroundGenerator.getHeight())
+            point.setY(foregroundGenerator.getHeight() - 1);
     }
-
-
 }

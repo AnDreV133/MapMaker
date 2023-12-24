@@ -12,8 +12,6 @@ public class Foreground {
     }
 
     public Foreground(Foreground foreground) {
-//        this.matrix = new ArrayList<>(foreground.getMatrix());
-
         this.matrix = new ArrayList<>();
         for (int y = 0; y < foreground.getHeight(); y++) {
             var buf = new ArrayList<ShapeId>();

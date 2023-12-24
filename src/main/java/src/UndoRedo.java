@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 public class UndoRedo {
-    private static final int CAPACITY = 30;
+    private static final int CAPACITY = 50;
     private final LinkedList<PairGrounds> stackDo = new LinkedList<>();
     private final LinkedList<PairGrounds> subStackDo = new LinkedList<>();
     private Background lastBackground;
@@ -75,7 +75,7 @@ public class UndoRedo {
         return new PairGrounds(new Background(tempBackground), new Foreground(tempForeground));
     }
 
-    public PairGrounds redo() {
+    public PairGrounds undo() {
         if (!stackDo.isEmpty()) {
             subStackDo.add(stackDo.getLast());
             stackDo.removeLast();
@@ -84,7 +84,7 @@ public class UndoRedo {
         return getPairGrounds();
     } // ctrl + z
 
-    public PairGrounds undo() {
+    public PairGrounds redo() {
         if (!subStackDo.isEmpty()) {
             stackDo.add(subStackDo.getLast());
             subStackDo.removeLast();

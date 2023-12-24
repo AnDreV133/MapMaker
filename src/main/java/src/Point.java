@@ -76,19 +76,4 @@ public class Point {
     public boolean yLessThan(Point point) {
         return getY() < point.getY();
     }
-
-
-    public void swapWith(PointWrapper point) {
-        Point temp = new Point(getX(), getY());
-        setXY(point.p.getX(), point.p.getY());
-        point.p.setXY(temp.getX(), temp.getY());
-    }
-}
-
-class PointWrapper {
-    public Point p;
-
-    public PointWrapper(Point p) {
-        this.p = p;
-    }
 }

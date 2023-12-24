@@ -37,54 +37,7 @@ public class ForegroundGenerator extends Foreground {
         initMatrix(newWidthInCell, newHeightInCell);
     }
 
-    private void movePointToBound(Point point) {
-        if (point.getX() < 0)
-            point.setX(0);
-        if (point.getX() >= getWidth())
-            point.setX(getWidth() - 1);
-        if (point.getY() < 0)
-            point.setY(0);
-        if (point.getY() >= getHeight())
-            point.setY(getHeight() - 1);
-    }
-
-    private void correctingPoints(Point begin, Point end) {
-        movePointToBound(begin);
-        movePointToBound(end);
-
-        if (begin.equals(end) || begin.lessThan(end)) {
-            return;
-        }
-
-        // e . .
-        // . . .
-        // . . b
-        if (begin.biggerOrEqualThan(end)) {
-            Point temp = new Point(begin.getX(), begin.getY());
-            begin.setXY(end.getX(), end.getY());
-            end.setXY(temp.getX(), temp.getY());
-
-            // . . b
-            // . . .
-            // e . .
-        } else if (begin.xBiggerThan(end) && begin.yLessThan(end)) {
-            int temp = begin.getX();
-            begin.setX(end.getX());
-            end.setX(temp);
-
-            // . . e
-            // . . .
-            // b . .
-        } else if (begin.xLessThan(end) && begin.yBiggerThan(end)) {
-            int temp = begin.getY();
-            begin.setY(end.getY());
-            end.setY(temp);
-        }
-    }
-
     public void addShapesByAreaWithFill(Point begin, Point end, ShapeId shapeId) {
-        correctingPoints(begin, end);
-
         for (int y = begin.getY(); y <= end.getY(); y++) {
             for (int x = begin.getX(); x <= end.getX(); x++) {
                 matrix.get(y).set(x, shapeId);
@@ -93,8 +46,6 @@ public class ForegroundGenerator extends Foreground {
     }
 
     public void addShapesAtEdge(Point begin, Point end, ShapeId shapeId) {
-        correctingPoints(begin, end);
-
         for (int x = begin.getX(); x <= end.getX(); x++) {
             matrix.get(begin.getY()).set(x, shapeId);
             matrix.get(end.getY()).set(x, shapeId);
@@ -107,8 +58,6 @@ public class ForegroundGenerator extends Foreground {
     }
 
     public void addShapesAsBlot(Point begin, Point end, ShapeId shapeId) {
-        correctingPoints(begin, end);
-
         // todo make by interpolate
     }
 
