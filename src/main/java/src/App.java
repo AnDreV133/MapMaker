@@ -32,9 +32,6 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
     private final JSpinner heightLandscape = new JSpinner();
     private final JSlider blockFreq = new JSlider(200, 800, 500);
     private final JLabel shapeName = new JLabel();
-    public boolean isAltPressed;
-    public boolean isCtrlPressed;
-    public boolean isShiftPressed;
     private boolean isUndoPressed;
     private boolean isRedoPressed;
     private double scale = 1.0;
@@ -80,7 +77,6 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
         imagePanel.addMouseMotionListener(this);
         imagePanel.addMouseWheelListener(this);
 
-        imagePanel.addKeyListener(this);
         imagePanel.addKeyListener(this);
     }
 
@@ -172,31 +168,17 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.isAltDown()) isAltPressed = true;
-        if (e.isControlDown()) isCtrlPressed = true;
-        if (e.isShiftDown()) isShiftPressed = true;
-
-        if (e.getKeyCode() == VK_Z)
-            if (isCtrlPressed && isShiftPressed)
-                isRedoPressed = true;
-            else if (isCtrlPressed)
-                isUndoPressed = true;
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (isUndoPressed)
-            painter.undo();
-        else if (isRedoPressed)
+        if (e.isControlDown() && e.isShiftDown() && e.getKeyCode() == VK_Z) {
             painter.redo();
+        } else if (e.isControlDown() && e.getKeyCode() == VK_Z) {
+            painter.undo();
+        }
 
         imagePanel.repaint();
-
-        isAltPressed = false;
-        isCtrlPressed = false;
-        isShiftPressed = false;
-        isUndoPressed = false;
-        isRedoPressed = false;
     }
 
     @Override
@@ -205,7 +187,6 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
 
     @Override
     public void mousePressed(MouseEvent e) {
-//        System.out.println(e.getX() + " " + e.getY());
         mousePlace.setXY(e.getX(), e.getY());
     }
 
@@ -218,7 +199,7 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (isAltPressed && isCtrlPressed) {
+        if (e.isAltDown() && e.isControlDown()) {
             painter.setCurrentShapeId(currentShapeId);
             painter.drawShapesForce(
                     translateMouseCordToIndexOfMatrix(mousePlace),
@@ -226,7 +207,7 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
             );
         }
 
-        if (isAltPressed && !isCtrlPressed) {
+        if (e.isAltDown() && !e.isControlDown()) {
             painter.setCurrentShapeId(currentShapeId);
             painter.drawShapes(
                     translateMouseCordToIndexOfMatrix(mousePlace),
@@ -249,7 +230,7 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (!isAltPressed) {
+        if (!e.isAltDown()) {
             imagePlace.setXY(
                     imagePlace.getX() + e.getX() - mousePlace.getX(),
                     imagePlace.getY() + e.getY() - mousePlace.getY()
