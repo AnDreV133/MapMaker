@@ -32,8 +32,6 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
     private final JSpinner heightLandscape = new JSpinner();
     private final JSlider blockFreq = new JSlider(200, 800, 500);
     private final JLabel shapeName = new JLabel();
-    private boolean isUndoPressed;
-    private boolean isRedoPressed;
     private double scale = 1.0;
     private final JPanel imagePanel = new JPanel() {
         @Override
@@ -41,12 +39,7 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g;
             g2d.scale(scale, scale);
-            g2d.drawImage(
-                    painter.getImage(),
-                    (int) (imagePlace.getX() / scale),
-                    (int) (imagePlace.getY() / scale),
-                    this
-            );
+            g2d.drawImage(painter.getImage(), (int) (imagePlace.getX() / scale), (int) (imagePlace.getY() / scale), this);
         }
     };
     private ShapeId currentShapeId = ShapeId.CELL;
@@ -106,10 +99,7 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
 
         JButton btnResize = new JButton();
         btnResize.addActionListener((l) -> {
-            painter.resizeMap(
-                    (Integer) widthLandscape.getValue(),
-                    (Integer) heightLandscape.getValue()
-            );
+            painter.resizeMap((Integer) widthLandscape.getValue(), (Integer) heightLandscape.getValue());
             imagePanel.repaint();
         });
         btnResize.setText("Resize");
@@ -191,29 +181,19 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
     }
 
     private Point translateMouseCordToIndexOfMatrix(Point mouseCord) {
-        return new Point(
-                (int) ((mouseCord.getX() - imagePlace.getX()) / scale / SIZE_CELL),
-                (int) ((mouseCord.getY() - imagePlace.getY()) / scale / SIZE_CELL)
-        );
+        return new Point((int) ((mouseCord.getX() - imagePlace.getX()) / scale / SIZE_CELL), (int) ((mouseCord.getY() - imagePlace.getY()) / scale / SIZE_CELL));
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         if (e.isAltDown() && e.isControlDown()) {
             painter.setCurrentShapeId(currentShapeId);
-            painter.drawShapesForce(
-                    translateMouseCordToIndexOfMatrix(mousePlace),
-                    translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY()))
-            );
-        }
-
-        if (e.isAltDown() && !e.isControlDown()) {
+            painter.drawShapesForce(translateMouseCordToIndexOfMatrix(mousePlace),
+                    translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY())));
+        } else if (e.isAltDown() && !e.isControlDown()) {
             painter.setCurrentShapeId(currentShapeId);
-            painter.drawShapes(
-                    translateMouseCordToIndexOfMatrix(mousePlace),
-                    translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY()))
-            );
-
+            painter.drawShapes(translateMouseCordToIndexOfMatrix(mousePlace),
+                    translateMouseCordToIndexOfMatrix(new Point(e.getX(), e.getY())));
         }
 
         imagePanel.repaint();
@@ -231,10 +211,7 @@ public class App extends JFrame implements KeyListener, MouseListener, MouseMoti
     @Override
     public void mouseDragged(MouseEvent e) {
         if (!e.isAltDown()) {
-            imagePlace.setXY(
-                    imagePlace.getX() + e.getX() - mousePlace.getX(),
-                    imagePlace.getY() + e.getY() - mousePlace.getY()
-            );
+            imagePlace.setXY(imagePlace.getX() + e.getX() - mousePlace.getX(), imagePlace.getY() + e.getY() - mousePlace.getY());
 
             imagePanel.repaint();
 

@@ -4,32 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="db21df1f-f0b6-4bc4-9e82-202f7a648608" name="Changes" comment="complete undoredo">
-      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/Fence.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceLD.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceLR.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceLRD.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceLRU.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceLRUD.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceLU.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceLUD.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceRD.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceRU.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceRUD.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceUD.java" afterDir="false" />
+    <list default="true" id="db21df1f-f0b6-4bc4-9e82-202f7a648608" name="Changes" comment="update App class">
+      <change afterPath="$PROJECT_DIR$/src/main/java/src/test.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/src/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Foreground/Foreground.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Foreground/Foreground.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/src/Foreground/ForegroundGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Foreground/ForegroundGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/src/Painter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Painter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Point.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceCentral.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceDown.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceD.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceLeft.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceL.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceRight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/Fence/FenceU.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/HardShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/HardShape.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/House/House.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/HardShapes/House/House.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/src/Shapes/Shape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/Shapes/Shape.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/src/UndoRedo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/src/UndoRedo.java" afterDir="false" />
     </list>
@@ -253,23 +234,13 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/src/Painter.java</url>
-          <line>170</line>
+          <line>169</line>
           <option name="timeStamp" value="38" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/src/UndoRedo.java</url>
-          <line>40</line>
-          <option name="timeStamp" value="41" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/src/Painter.java</url>
-          <line>252</line>
+          <line>251</line>
           <option name="timeStamp" value="43" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/src/Painter.java</url>
-          <line>207</line>
-          <option name="timeStamp" value="45" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

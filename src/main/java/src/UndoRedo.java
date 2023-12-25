@@ -24,8 +24,10 @@ public class UndoRedo {
 
         if (stackDo.size() == CAPACITY) {
             var temp = stackDo.getFirst();
-            if (temp.background() != null) lastBackground = temp.background();
-            else if (temp.foreground() != null) lastForeground = temp.foreground();
+            if (temp.background() != null)
+                lastBackground = temp.background();
+            else if (temp.foreground() != null)
+                lastForeground = temp.foreground();
 
             stackDo.removeFirst();
         }
@@ -46,33 +48,33 @@ public class UndoRedo {
     }
 
     public PairGrounds getPairGrounds() {
-        PairGrounds res = new PairGrounds(null, null);
-        Foreground tempForeground = null;
-        Background tempBackground = null;
+        PairGrounds lastPair = new PairGrounds(null, null);
+        Foreground resForeground = null;
+        Background resBackground = null;
         if (!stackDo.isEmpty()) {
-            res = stackDo.getLast();
-            tempForeground = res.foreground();
-            tempBackground = res.background();
+            lastPair = stackDo.getLast();
+            resForeground = lastPair.foreground();
+            resBackground = lastPair.background();
         }
 
         int i = stackDo.size() - 2;
-        while (tempBackground == null || tempForeground == null) {
+        while (resBackground == null || resForeground == null) {
             if (i < 0) {
-                if (tempBackground == null) tempBackground = lastBackground;
-                if (tempForeground == null) tempForeground = lastForeground;
+                if (resBackground == null) resBackground = lastBackground;
+                if (resForeground == null) resForeground = lastForeground;
                 break;
             }
 
             var iterPairGrounds = stackDo.get(i);
-            if (res.background() == null && iterPairGrounds.background() != null)
-                tempBackground = iterPairGrounds.background();
-            else if (res.foreground() == null && iterPairGrounds.foreground() != null)
-                tempForeground = iterPairGrounds.foreground();
+            if (lastPair.background() == null && iterPairGrounds.background() != null)
+                resBackground = iterPairGrounds.background();
+            else if (lastPair.foreground() == null && iterPairGrounds.foreground() != null)
+                resForeground = iterPairGrounds.foreground();
 
             i--;
         }
 
-        return new PairGrounds(new Background(tempBackground), new Foreground(tempForeground));
+        return new PairGrounds(new Background(resBackground), new Foreground(resForeground));
     }
 
     public PairGrounds undo() {

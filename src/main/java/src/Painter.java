@@ -108,6 +108,17 @@ public class Painter {
         );
     }
 
+    public void redrawMapByArea(Point begin, Point end) {
+        for (int y = begin.getY(); y <= end.getY(); y++)
+            for (int x = begin.getX(); x <= end.getX(); x++)
+                if (backgroundGenerator.getVal(x, y) >
+                        backgroundGenerator.getFreq()) {
+                    drawShape(x, y, new Cell(sizeCell));
+                    drawShapeWithDefine(x, y);
+                } else
+                    drawShape(x, y, new Stone(sizeCell));
+    }
+
     public void drawShapes(Point begin, Point end) {
         correctingPoints(begin, end);
         foregroundGenerator.addShapes(begin, end, currentShapeId);
@@ -122,26 +133,14 @@ public class Painter {
 
         for (int y = begin.getY(); y <= end.getY(); y++)
             for (int x = begin.getX(); x <= end.getX(); x++)
-                backgroundGenerator.setVal(x, y, currentShapeId == ShapeId.STONE ? 0.0f : 1.0f);
+                backgroundGenerator.setVal(x, y,
+                        currentShapeId == ShapeId.STONE ? 0.0f : 1.0f);
 
         foregroundGenerator.addShapes(begin, end, currentShapeId);
 
         undoRedo.add(backgroundGenerator, foregroundGenerator);
 
         redrawMapByArea(begin, end);
-    }
-
-    public void redrawMapByArea(Point begin, Point end) {
-        for (int y = begin.getY(); y <= end.getY(); y++) {
-            for (int x = begin.getX(); x <= end.getX(); x++) {
-                if (backgroundGenerator.getVal(x, y) > backgroundGenerator.getFreq()) {
-                    drawShape(x, y, new Cell(sizeCell));
-                    drawShapeWithDefine(x, y);
-                } else {
-                    drawShape(x, y, new Stone(sizeCell));
-                }
-            }
-        }
     }
 
     public void undo() {

@@ -17,19 +17,6 @@ public abstract class Shape {
         g = image.createGraphics();
     }
 
-    public int getSideSize() {
-        return SIDE_SIZE;
-    }
-
-//    public Graphics2D getGraphic() {
-//        return g;
-//    }
-
-    public BufferedImage getImage() {
-        draw();
-        return image;
-    }
-
     public abstract void draw();
 
     protected void rotateShape(Shape shape, int angle) {
@@ -40,5 +27,14 @@ public abstract class Shape {
 
     protected void addShape(Shape shape) {
         g.drawImage(shape.getImage(), 0, 0, null);
+    }
+
+    public int getSideSize() {
+        return SIDE_SIZE;
+    }
+
+    public BufferedImage getImage() {
+        draw();
+        return image;
     }
 }

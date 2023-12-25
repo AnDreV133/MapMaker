@@ -10,8 +10,6 @@ public class ForegroundGenerator extends Foreground {
         initMatrix(widthInCell, heightInCell);
     }
 
-
-
     public void initMatrix(int widthInCell, int heightInCell) {
         matrix = new ArrayList<>();
 
@@ -70,11 +68,8 @@ public class ForegroundGenerator extends Foreground {
             case CELL, BLOCK, STONE, HOUSE, ROAD -> addShapesByAreaWithFill(begin, end, shapeId);
             case FENCE -> addShapesAtEdge(begin, end, shapeId);
             case WATER -> addShapesAsBlot(begin, end, shapeId);
-            default -> System.out.println("Not define shape");
-//            case TOWER ->return new (sizeCell);
         }
     }
-
 
     public ShapeId getVal(int x, int y) {
         return getVal(x, y, 0);
